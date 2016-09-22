@@ -156,7 +156,7 @@ IMPLEMENT(wiringPiSetupPhys) {
 
 // Func : void pinModeAlt(int pin, int mode)
 // Description : This is an un-documented special to let you set any pin to any mode.
-// Modes are WPI_MODE_PINS, WPI_MODE_PHYS, WPI_MODE_GPIO.
+// Modes are FSEL_INPT, FSEL_OUTP, FSEL_ALT0, FSEL_ALT1, FSEL_ALT2, FSEL_ALT3, FSEL_ALT4, FSEL_ALT5.
 
 IMPLEMENT(pinModeAlt) {
   SCOPE_OPEN();
@@ -172,7 +172,7 @@ IMPLEMENT(pinModeAlt) {
   int pin = GET_ARGUMENT_AS_INT32(0);
   int mode = GET_ARGUMENT_AS_INT32(1);
 
-  CHECK_ARGUMENT_IN_INTS(1, mode, (WPI_MODE_PINS, WPI_MODE_PHYS, WPI_MODE_GPIO));
+  CHECK_ARGUMENT_IN_INTS(1, mode, (FSEL_INPT, FSEL_OUTP, FSEL_ALT0, FSEL_ALT1, FSEL_ALT2, FSEL_ALT3, FSEL_ALT4, FSEL_ALT5));
 
   ::pinModeAlt(pin, mode);
 
