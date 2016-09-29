@@ -35,6 +35,7 @@ IMPLEMENT_EXPORT_INIT(extensions) {
   INIT(mcp23017);
   INIT(pcf8574);
   INIT(pcf8591);
+  INIT(sn3218);
   INIT(sr595);
   INIT(pca9685);
 }
