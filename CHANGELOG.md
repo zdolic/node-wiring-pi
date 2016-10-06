@@ -1,6 +1,16 @@
 # CHANGELOG
 
-## v2.1.1 *[not released yet]*
+## v2.2.0 *[Oct 6 2016]*
+  * **Fix:** pinModeAlt mode argument is cheked in (FSEL_INPT, FSEL_OUTP, FSEL_ALT0, FSEL_ALT1, FSEL_ALT2, FSEL_ALT3, FSEL_ALT4, FSEL_ALT5) `NoHomey`
+  * **Fix:** sn3218Setup is a function `NoHomey`
+  * **Update:** documentation `NoHomey`
+  * **Add:** export of WPI_MODE_GPIO_SYS constant `NoHomey`
+  * **Add:** export of WPI_MODE_GPIO_PIFACE constant `NoHomey`
+  * **Add:** export of WPI_MODE_GPIO_UNINITIALISED constant `NoHomey`
+  * **Add:** wiringPiI2CClose `NoHomey`
+  * **Add:** wiringPiSPIClose `NoHomey`
+
+## v2.1.1 *[Jan 5 2016]*
   * **Fix:** added scope for dispatchInterrupt `taoyuan`
 
 ## v2.1.0 *[Aug 1 2015]*

@@ -487,12 +487,17 @@ The ID is the I2C number of the device and you can use the i2cdetect program to 
 
 wiringPiI2CSetup() will work out which revision Raspberry Pi you have and open the appropriate device in /dev.
 
-The return value is the standard Linux filehandle, or -1 if any error – in which case, you can consult errno as usual.
+The return value is the Linux file-descriptor for the device, or -1 if any error – in which case, you can consult errno as usual.
 
 ### wiringPiI2CSetupInterface(device, devId)
 <span class="api-info"><code> >= 2.0.0 </code></span>
 
 Undocumented access to set the interface explicitly - might be used for the Pi's 2nd I2C interface...
+
+### wiringPiI2CClose(fd)
+<span class="apt-info"><code> >= 2.2.0 </code></span>
+
+Closes the device identified by the file descriptor given.
 
 ### wiringPiI2CRead(fd)
 <span class="api-info"><code> >= 2.0.0 </code></span>
@@ -561,6 +566,11 @@ If an error has happened, you may use the standard errno global variable to see 
 
 ### wiringPiSPISetupMode(channel, speed, mode)
 <span class="apt-info"><code> >= 2.1.0 </code></span>
+
+### wiringPiSPIClose(fd)
+<span class="apt-info"><code> >= 2.2.0 </code></span>
+
+Closes the device identified by the file descriptor given.
 
 ---
 
