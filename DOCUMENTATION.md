@@ -35,7 +35,7 @@
     * [sr595](#sr595)
   * [DevLib](#devlib)
     * [ds1302](#ds1302)
-    * [GetBoard](#getboard)
+    * [GertBoard](#gertboard)
     * [LCD](#lcd)
     * [LCD 128x64](#lcd-128x64)
     * [piFace](#piface)
