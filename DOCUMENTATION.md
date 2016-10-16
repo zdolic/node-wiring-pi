@@ -511,7 +511,7 @@ Some devices present data when you read them without having to do any register t
 
 This read an 8-bit value from the device register indicated.
 
-### wiringPiI2CReadReg16(fd, red)
+### wiringPiI2CReadReg16(fd, reg)
 <span class="api-info"><code> >= 2.0.0 </code></span>
 
 This read an 16-bit value from the device register indicated.
