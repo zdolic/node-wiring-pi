@@ -46,7 +46,8 @@
       ],
       'include_dirs': [
         'wiringPi/wiringPi',
-        'wiringPi/devLib'
+        'wiringPi/devLib',
+	'<!(node -e \"require(\'nan\')\")'
       ],
       'libraries': [
         '<!(pwd)/wiringPi/wiringPi/libwiringPi.so.<!(cat wiringPi/VERSION)',

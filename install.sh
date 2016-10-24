@@ -50,7 +50,7 @@ echo "done."
 
 echo -n "Making libWiringPi ... "
 cd ./wiringPi/
-./build >> ../../install.log 2>&1
+./build >> ../install.log 2>&1
 check_make_ok "libWiringPi" 1
 cd ..
 echo "done."
