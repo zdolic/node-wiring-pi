@@ -1,8 +1,8 @@
 #include "wiringShift.h"
 #include <wiringShift.h>
 
-DECLARE(shiftIn);
-DECLARE(shiftOut);
+NAN_METHOD(shiftIn);
+NAN_METHOD(shiftOut);
 
 // Func : uint8_t shiftIn(uint8_t dPin, uint8_t cPin, uint8_t order)
 // Description : This shifts an 8-bit data value in with the data appearing on the dPin and the clock being sent out on the cPin.

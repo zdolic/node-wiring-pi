@@ -1,8 +1,8 @@
 #include "softServo.h"
 #include <softServo.h>
 
-DECLARE(softServoWrite);
-DECLARE(softServoSetup);
+NAN_METHOD(softServoWrite);
+NAN_METHOD(softServoSetup);
 
 // Func : void softServoWrite(int pin, int value)
 // Description : Write a Servo value to the given pin

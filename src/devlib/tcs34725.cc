@@ -1,16 +1,16 @@
 #include <tcs34725.h>
 #include "tcs34725.h"
 
-DECLARE(tcs34725ReadRGBC);
-DECLARE(tcs34725ReadHSV);
-DECLARE(tcs34725GetCorrelatedColorTemperature);
-DECLARE(tcs34725GetIlluminance);
-DECLARE(tcs34725SetInterrupt);
-DECLARE(tcs34725ClearInterrupt);
-DECLARE(tcs34725SetInterruptLimits);
-DECLARE(tcs34725Enable);
-DECLARE(tcs34725Disable);
-DECLARE(tcs34725Setup);
+NAN_METHOD(tcs34725ReadRGBC);
+NAN_METHOD(tcs34725ReadHSV);
+NAN_METHOD(tcs34725GetCorrelatedColorTemperature);
+NAN_METHOD(tcs34725GetIlluminance);
+NAN_METHOD(tcs34725SetInterrupt);
+NAN_METHOD(tcs34725ClearInterrupt);
+NAN_METHOD(tcs34725SetInterruptLimits);
+NAN_METHOD(tcs34725Enable);
+NAN_METHOD(tcs34725Disable);
+NAN_METHOD(tcs34725Setup);
 
 IMPLEMENT(tcs34725ReadRGBC) {
   SCOPE_OPEN();

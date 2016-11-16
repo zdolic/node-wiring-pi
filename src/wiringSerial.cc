@@ -1,14 +1,14 @@
 #include "wiringSerial.h"
 #include <wiringSerial.h>
 
-DECLARE(serialOpen);
-DECLARE(serialClose);
-DECLARE(serialFlush);
-DECLARE(serialPutchar);
-DECLARE(serialPuts);
-DECLARE(serialPrintf);
-DECLARE(serialDataAvail);
-DECLARE(serialGetchar);
+NAN_METHOD(serialOpen);
+NAN_METHOD(serialClose);
+NAN_METHOD(serialFlush);
+NAN_METHOD(serialPutchar);
+NAN_METHOD(serialPuts);
+NAN_METHOD(serialPrintf);
+NAN_METHOD(serialDataAvail);
+NAN_METHOD(serialGetchar);
 
 // Func : int serialOpen(const char* device, const int baud)
 

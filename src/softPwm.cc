@@ -1,9 +1,9 @@
 #include "softPwm.h"
 #include <softPwm.h>
 
-DECLARE(softPwmCreate);
-DECLARE(softPwmWrite);
-DECLARE(softPwmStop);
+NAN_METHOD(softPwmCreate);
+NAN_METHOD(softPwmWrite);
+NAN_METHOD(softPwmStop);
 
 // Func : int softPwmCreate(int pin, int value, int range)
 // Description : This creates a software controlled PWM pin. 

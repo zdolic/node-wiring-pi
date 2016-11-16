@@ -3,6 +3,6 @@
 
 #include "../addon.h"
 
-DECLARE_EXPORT_INIT(dac7678);
+NAN_METHOD_EXPORT_INIT(dac7678);
 
 #endif

@@ -1,7 +1,7 @@
 #include "mcp23017.h"
 #include <mcp23017.h>
 
-DECLARE(mcp23017Setup);
+NAN_METHOD(mcp23017Setup);
 
 // Func : int mcp23017Setup(int pinBase, int i2cAddress)
 

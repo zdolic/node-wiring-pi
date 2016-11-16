@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(gertboard);
+  NAN_METHOD_EXPORT_INIT(gertboard);
 
 #endif

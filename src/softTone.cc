@@ -1,9 +1,9 @@
 #include "softTone.h"
 #include <softTone.h>
 
-DECLARE(softToneCreate);
-DECLARE(softToneWrite);
-DECLARE(softToneStop);
+NAN_METHOD(softToneCreate);
+NAN_METHOD(softToneWrite);
+NAN_METHOD(softToneStop);
 
 // Func : int softToneCreate(int pin);
 // Description : This creates a software controlled tone pin. 

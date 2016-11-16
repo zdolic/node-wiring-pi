@@ -3,6 +3,6 @@
 
   #include "addon.h"
   
-  DECLARE_EXPORT_INIT(softPwm);
+  NAN_METHOD_EXPORT_INIT(softPwm);
 
 #endif

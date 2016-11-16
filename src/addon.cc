@@ -1,19 +1,12 @@
-#include "addon.h"
-#include <stdarg.h>
-#include <strings.h>
-#include <algorithm>
 
-bool find_string(const char* string, const char* array[], size_t s) {
-  for (size_t i = 0; i < s; i++) {
-    if (!strcasecmp(string, array[i])) {
-      return true;
-    }
-  }
-  return false;
+#include "addon.h"
+
+bool find_string(const std::string & value, const std::vector<std::string> & validStrings ) {
+  return std::find(validStrings.begin(), validStrings.end(), value) != validStrings.end();
 }
 
-bool find_int(const int value, const int array[]) {
-  return std::any_of(std::begin(array), std::end(array), [](int const n){return n==value;});
+bool find_int(const int & value, const std::vector<int> & validInts ) {
+  return std::find(validInts.begin(), validInts.end(), value) != validInts.end();
 }
 
 

@@ -1,7 +1,7 @@
 #include "mcp3002.h"
 #include <mcp3002.h>
 
-DECLARE(mcp3002Setup);
+NAN_METHOD(mcp3002Setup);
 
 // Func : int mcp3002Setup(int pinBase, int spiChannel)
 

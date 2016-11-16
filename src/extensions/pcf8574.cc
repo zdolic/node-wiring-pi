@@ -1,7 +1,7 @@
 #include "pcf8574.h"
 #include <pcf8574.h>
 
-DECLARE(pcf8574Setup);
+NAN_METHOD(pcf8574Setup);
 
 // Func : int pcf8574Setup(const int pinBase, const int i2cAddress)
 

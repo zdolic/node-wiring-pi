@@ -3,6 +3,6 @@
   
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(devlib);
+  NAN_METHOD_EXPORT_INIT(devlib);
 
 #endif

@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(max5322);
+  NAN_METHOD_EXPORT_INIT(max5322);
 
 #endif

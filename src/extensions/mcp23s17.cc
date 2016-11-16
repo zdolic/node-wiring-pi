@@ -1,7 +1,7 @@
 #include "mcp23s17.h"
 #include <mcp23s17.h>
 
-DECLARE(mcp23s17Setup);
+NAN_METHOD(mcp23s17Setup);
 
 // Func : int mcp23s17Setup(int pinBase, int spiPort, int devId)
 // Description : Initialise libWiringPi to be used with MCP23S17

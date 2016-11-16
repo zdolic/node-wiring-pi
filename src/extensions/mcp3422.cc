@@ -1,7 +1,7 @@
 #include "mcp3422.h"
 #include <mcp3422.h>
 
-DECLARE(mcp3422Setup);
+NAN_METHOD(mcp3422Setup);
 
 // Func : int mcp3422Setup(int pinBase, int i2cAddress, int sampleRate, int gain)
 

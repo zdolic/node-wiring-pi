@@ -1,7 +1,7 @@
 #include "pcf8591.h"
 #include <pcf8591.h>
 
-DECLARE(pcf8591Setup);
+NAN_METHOD(pcf8591Setup);
 
 // Func : int pcf8591Setup(const int pinBase, const int i2cAddress)
 

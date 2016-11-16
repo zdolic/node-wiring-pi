@@ -1,8 +1,8 @@
 #include "maxdetect.h"
 #include <maxdetect.h>
 
-DECLARE(maxDetectRead);
-DECLARE(readRHT03);
+NAN_METHOD(maxDetectRead);
+NAN_METHOD(readRHT03);
 
 IMPLEMENT(maxDetectRead) {
   SCOPE_OPEN();

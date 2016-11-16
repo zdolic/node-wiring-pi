@@ -2,11 +2,11 @@
 #include <wiringPiSPI.h>
 #include <unistd.h>
 
-DECLARE(wiringPiSPIGetFd);
-DECLARE(wiringPiSPIDataRW);
-DECLARE(wiringPiSPISetup);
-DECLARE(wiringPiSPISetupMode);
-DECLARE(wiringPiSPIClose);
+NAN_METHOD(wiringPiSPIGetFd);
+NAN_METHOD(wiringPiSPIDataRW);
+NAN_METHOD(wiringPiSPISetup);
+NAN_METHOD(wiringPiSPISetupMode);
+NAN_METHOD(wiringPiSPIClose);
 
 // Func : int wiringPiSPIGetFd(int channel)
 

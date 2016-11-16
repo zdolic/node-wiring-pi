@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(pcf8574);
+  NAN_METHOD_EXPORT_INIT(pcf8574);
 
 #endif

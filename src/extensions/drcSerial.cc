@@ -2,7 +2,7 @@
 #include <wiringPi.h>
 #include <drcSerial.h>
 
-DECLARE(drcSetupSerial);
+NAN_METHOD(drcSetupSerial);
 
 // Func : int drcSetupSerial(const int pinBase, const int numPins, const char* device, const int baud)
 // Description : https://projects.drogon.net/drogon-remote-control/drc-protocol-arduino/

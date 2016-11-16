@@ -1,7 +1,7 @@
 #include "max5322.h"
 #include <max5322.h>
 
-DECLARE(max5322Setup);
+NAN_METHOD(max5322Setup);
 
 // Func : int max5233Setup(int pinBase, int spiChannel)
 

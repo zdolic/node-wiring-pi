@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(sn3218);
+  NAN_METHOD_EXPORT_INIT(sn3218);
 
 #endif

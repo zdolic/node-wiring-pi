@@ -1,10 +1,11 @@
 #ifndef _ADDON_H_
 #define _ADDON_H_
 
-  #include <v8.h>
-  #include <node_version.h>
-  #include <node.h>
-  #include <nan.h>
+#include <algorithm>
+#include <iterator>
+#include <vector>
+
+#include <nan.h>
 
   using namespace v8;
 
@@ -20,24 +21,9 @@
     }
   }
 
-  bool find_string(const char* string, const char* array[], size_t s);
-  bool find_int(const int value, const int array[], size_t s);
+  bool find_string(const std::string & value, const std::vector<std::string> & validStrings );
+  bool find_int(const int & value, const std::vector<int> & validInts );
   void throw_error(const char* format, ...);
-
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-
-//Replace with NODE_MODULE
-    #define DECLARE(name) \
-      namespace nodemodule { \
-        static void name(const v8::FunctionCallbackInfo<v8::Value>& info); \
-      }
-
-//replace with NAN_METHOD
-    #define IMPLEMENT(name) \
-      void nodemodule::name(const v8::FunctionCallbackInfo<v8::Value>& info)
-
-    #define EXPORT_FUNCTION(name) \
-	NODE_SET_METHOD(target, #name, nodemodule::name);
 
     #define EXPORT_CONSTANT_INT(constant)                                         \
       do {                                                                        \
@@ -95,15 +81,15 @@
 
     #define EXPORT_CONSTANT_STRING_ARRAY(constant, array, length) \
       do { \
-        v8::Local<v8::Array> arr = v8::Array::New(isolate, length); \
+        v8::Local<v8::Array> arr = Nan::New<Array>(); \
         for (int i = 0; i < length; i++) { \
-          arr->Set(i, v8::String::NewFromUtf8(isolate, array[i])); \
+          arr->Set(i, Nan::New<String>(array[i]).ToLocalChecked()); \
         } \
                                                                                 \
           v8::Isolate* isolate = target->GetIsolate();                              \
           v8::Local<v8::Context> context = isolate->GetCurrentContext();            \
           v8::Local<v8::String> constant_name =                                     \
-              v8::String::NewFromUtf8(isolate, #constant);                          \
+              Nan::New<String>(#constant).ToLocalChecked();                          \
           v8::Local<v8::Array> constant_value = arr;                                 \
           v8::PropertyAttribute constant_attributes =                               \
               static_cast<v8::PropertyAttribute>(v8::ReadOnly | v8::DontDelete);    \
@@ -120,93 +106,10 @@
       } \
       void nodemodule::init(v8::Handle<v8::Object> target)
 
-    #define NODE_MODULE_DECLARE(name) NODE_MODULE(name, nodemodule::init)
-    #define IMPLEMENT_EXPORT_INIT(name) void nodemodule::init##name(v8::Isolate* isolate, v8::Handle<v8::Object> target)
-    #define DECLARE_EXPORT_INIT(name) \
-      namespace nodemodule { \
-        void init##name(v8::Isolate* isolate, v8::Handle<v8::Object> target); \
-      }
-
-    #define INIT(name) nodemodule::init##name(isolate, target);
-
-    #define SCOPE_OPEN() \
-      v8::Isolate* isolate = info.GetIsolate(); \
-      v8::HandleScope scope(isolate)
-    #define SCOPE_CLOSE(obj) info.GetReturnValue().Set(obj)
-
-  #else
-
-    #define DECLARE(name) \
-      namespace nodemodule { \
-        static v8::Handle<v8::Value> name(const v8::Arguments& info); \
-      }
-
-    #define IMPLEMENT(name) \
-      v8::Handle<v8::Value> nodemodule::name(const v8::Arguments& info)
-
-    #define EXPORT_FUNCTION(name)  \
-      target->Set(v8::String::NewSymbol(#name), \
-        v8::FunctionTemplate::New(nodemodule::name)->GetFunction())
-
-    #define EXPORT_CONSTANT_INT(name) \
-      target->Set(v8::String::NewSymbol(#name), \
-        v8::Int32::New(name), static_cast<v8::PropertyAttribute>(v8::ReadOnly | v8::DontDelete));
-
-    #define EXPORT_CONSTANT_STRING(name) \
-      target->Set(v8::String::NewSymbol(#name), \
-        v8::String::New(name), static_cast<v8::PropertyAttribute>(v8::ReadOnly | v8::DontDelete));
-
-    #define EXPORT_CONSTANT_INT_ARRAY(name, array, length) \
-      { \
-        v8::Local<v8::Array> arr = v8::Array::New(length); \
-        for (int i = 0; i < length; i++) { \
-          arr->Set(i, v8::Int32::New(array[i])); \
-        } \
-        target->Set(v8::String::NewSymbol(#name), arr, static_cast<v8::PropertyAttribute>(v8::ReadOnly | v8::DontDelete)); \
-      }
-
-    #define EXPORT_CONSTANT_STRING_ARRAY(name, array, length) \
-      { \
-        v8::Local<v8::Array> arr = v8::Array::New(length); \
-        for (int i = 0; i < length; i++) { \
-          arr->Set(i, v8::String::New(array[i])); \
-        } \
-        target->Set(v8::String::NewSymbol(#name), arr, static_cast<v8::PropertyAttribute>(v8::ReadOnly | v8::DontDelete)); \
-      }
-
-    #define NODE_MODULE_INIT() \
-      namespace nodemodule { \
-        void init(v8::Handle<v8::Object> target); \
-      } \
-      void nodemodule::init(v8::Handle<v8::Object> target)
-    #define NODE_MODULE_DECLARE(name) NODE_MODULE(name, nodemodule::init)
-    #define IMPLEMENT_EXPORT_INIT(name) void nodemodule::init##name(v8::Handle<v8::Object> target)
-    #define DECLARE_EXPORT_INIT(name) \
-      namespace nodemodule { \
-        void init##name(v8::Handle<v8::Object> target); \
-      }
-
-    #define INIT(name) nodemodule::init##name(target);
-
-    #define SCOPE_OPEN() v8::HandleScope scope
-    #define SCOPE_CLOSE(obj) return scope.Close(obj)
-
-  #endif
-
-
-
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-    #define UNDEFINED() v8::Undefined(isolate)
-    #define INT32(v) v8::Int32::New(isolate, v)
-    #define UINT32(v) v8::Uint32::NewFromUnsigned(isolate, v)
-    #define STRING(v) v8::String::NewFromUtf8(isolate, v)
-  #else
-    #define UNDEFINED() v8::Undefined()
-    #define INT32(v) v8::Int32::New(v)
-    #define UINT32(v) v8::Uint32::NewFromUnsigned(v)
-    #define STRING(v) v8::String::New(v)
-  #endif
-
+  #define INT32(v) Nan::New<v8::Int32>(v)
+  #define UINT32(v) Nan::New<v8::Uint32>(v)
+  #define STRING(v) Nan::New<v8::String>(v).ToLocalChecked()
+ 
 
   #define SET_ARGUMENT_NAME(id, name) static const char* arg##id = #name
   #define GET_ARGUMENT_NAME(id) arg##id

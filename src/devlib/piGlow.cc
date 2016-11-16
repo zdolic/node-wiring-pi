@@ -1,10 +1,10 @@
 #include "piGlow.h"
 #include <piGlow.h>
 
-DECLARE(piGlow1);
-DECLARE(piGlowLeg);
-DECLARE(piGlowRing);
-DECLARE(piGlowSetup);
+NAN_METHOD(piGlow1);
+NAN_METHOD(piGlowLeg);
+NAN_METHOD(piGlowRing);
+NAN_METHOD(piGlowSetup);
 
 IMPLEMENT(piGlow1) {
   SCOPE_OPEN();

@@ -1,7 +1,7 @@
 #include "piFace.h"
 #include <piFace.h>
 
-DECLARE(piFaceSetup);
+NAN_METHOD(piFaceSetup);
 
 IMPLEMENT(piFaceSetup) {
   SCOPE_OPEN();

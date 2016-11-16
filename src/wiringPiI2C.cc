@@ -2,15 +2,15 @@
 #include <wiringPiI2C.h>
 #include <unistd.h>
 
-DECLARE(wiringPiI2CRead);
-DECLARE(wiringPiI2CReadReg8);
-DECLARE(wiringPiI2CReadReg16);
-DECLARE(wiringPiI2CWrite);
-DECLARE(wiringPiI2CWriteReg8);
-DECLARE(wiringPiI2CWriteReg16);
-DECLARE(wiringPiI2CSetupInterface);
-DECLARE(wiringPiI2CSetup);
-DECLARE(wiringPiI2CClose);
+NAN_METHOD(wiringPiI2CRead);
+NAN_METHOD(wiringPiI2CReadReg8);
+NAN_METHOD(wiringPiI2CReadReg16);
+NAN_METHOD(wiringPiI2CWrite);
+NAN_METHOD(wiringPiI2CWriteReg8);
+NAN_METHOD(wiringPiI2CWriteReg16);
+NAN_METHOD(wiringPiI2CSetupInterface);
+NAN_METHOD(wiringPiI2CSetup);
+NAN_METHOD(wiringPiI2CClose);
 
 // Func : int wiringPiI2CRead (int fd);
 // Simple device read. Some devices present data when you read them without having to do any register transactions.

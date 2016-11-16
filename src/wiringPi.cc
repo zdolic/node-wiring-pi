@@ -1,45 +1,10 @@
 #include "wiringPi.h"
 #include <wiringPi.h>
-#include <strings.h>
 
-// Setup
-static NAN_METHOD(setup);
-static NAN_METHOD(wiringPiSetup);
-static NAN_METHOD(wiringPiSetupGpio);
-static NAN_METHOD(wiringPiSetupSys);
-static NAN_METHOD(wiringPiSetupPhys);
-
-// Core functions
-static NAN_METHOD(pinModeAlt);
-static NAN_METHOD(pinMode);
-static NAN_METHOD(pullUpDnControl);
-static NAN_METHOD(digitalRead);
-static NAN_METHOD(digitalWrite);
-static NAN_METHOD(pwmWrite);
-static NAN_METHOD(analogRead);
-static NAN_METHOD(analogWrite);
-
-static NAN_METHOD(delay);
-static NAN_METHOD(delayMicroseconds);
-static NAN_METHOD(millis);
-static NAN_METHOD(micros);
-
-// On-Board Rasberry Pi hardware specific stuff
-static NAN_METHOD(piBoardRev);
-static NAN_METHOD(piBoardId);
-static NAN_METHOD(wpiPinToGpio);
-static NAN_METHOD(physPinToGpio);
-static NAN_METHOD(setPadDrive);
-static NAN_METHOD(getAlt);
-static NAN_METHOD(pwmToneWrite);
-static NAN_METHOD(digitalWriteByte);
-static NAN_METHOD(pwmSetMode);
-static NAN_METHOD(pwmSetRange);
-static NAN_METHOD(pwmSetClock);
-static NAN_METHOD(gpioClockSet);
+namespace nodewpi {
 
 NAN_METHOD(setup) {
-  Nan::HandleScope();
+
 
   std::string mode = *Nan::Utf8String(info[0]);
 
@@ -77,7 +42,6 @@ NAN_METHOD(setup) {
 // This function needs to be called with root privileges.
 
 NAN_METHOD(wiringPiSetup) {
-  Nan::HandleScope();
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
@@ -94,7 +58,6 @@ NAN_METHOD(wiringPiSetup) {
 // are different from revision 1 to revision 2 boards.
 
 NAN_METHOD(wiringPiSetupGpio) {
-  Nan::HandleScope();
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
@@ -118,7 +81,7 @@ NAN_METHOD(wiringPiSetupGpio) {
 // gpio to set/change modes if needed).
 
 NAN_METHOD(wiringPiSetupSys) {
-  Nan::HandleScope();
+
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
@@ -134,7 +97,7 @@ NAN_METHOD(wiringPiSetupSys) {
 // As above, this function needs to be called with root priviliges.
 
 NAN_METHOD(wiringPiSetupPhys) {
-  Nan::HandleScope();
+
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
@@ -148,7 +111,7 @@ NAN_METHOD(wiringPiSetupPhys) {
 // Modes are FSEL_INPT, FSEL_OUTP, FSEL_ALT0, FSEL_ALT1, FSEL_ALT2, FSEL_ALT3, FSEL_ALT4, FSEL_ALT5.
 
 NAN_METHOD(pinModeAlt) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, mode);
@@ -161,7 +124,7 @@ NAN_METHOD(pinModeAlt) {
   int pin = GET_ARGUMENT_AS_INT32(0);
   int mode = GET_ARGUMENT_AS_INT32(1);
 
-  std::array<int, 8> validInputs = { FSEL_INPT, FSEL_OUTP, FSEL_ALT0, FSEL_ALT1, FSEL_ALT2, FSEL_ALT3, FSEL_ALT4, FSEL_ALT5 };
+  const std::vector<int> validInputs = { FSEL_INPT, FSEL_OUTP, FSEL_ALT0, FSEL_ALT1, FSEL_ALT2, FSEL_ALT3, FSEL_ALT4, FSEL_ALT5 };
 
   if(find_int(mode, validInputs))
   {
@@ -180,7 +143,7 @@ NAN_METHOD(pinModeAlt) {
 // do it with the gpio program in a script before you start your program.
 
 NAN_METHOD(pinMode) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, mode);
@@ -193,11 +156,15 @@ NAN_METHOD(pinMode) {
   int pin = GET_ARGUMENT_AS_INT32(0);
   int mode = GET_ARGUMENT_AS_INT32(1);
 
-  std::array<int,
+  const std::vector<int> validInputs = { INPUT, OUTPUT, PWM_OUTPUT, GPIO_CLOCK, SOFT_PWM_OUTPUT, SOFT_TONE_OUTPUT };
 
-  CHECK_ARGUMENT_IN_INTS(1, mode, (INPUT, OUTPUT, PWM_OUTPUT, GPIO_CLOCK, SOFT_PWM_OUTPUT, SOFT_TONE_OUTPUT));
-
-  ::pinMode(pin, mode);
+  if(find_int(mode, validInputs))
+  {
+    ::pinMode(pin, mode);
+  }
+  else {
+    //throw error
+  }
 
 }
 
@@ -208,7 +175,7 @@ NAN_METHOD(pinMode) {
 // The internal pull up/down resistors have a value of approximately 50KΩ on the Raspberry Pi.
 
 NAN_METHOD(pullUpDnControl) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, pud);
@@ -221,10 +188,14 @@ NAN_METHOD(pullUpDnControl) {
   int pin = GET_ARGUMENT_AS_INT32(0);
   int pud = GET_ARGUMENT_AS_INT32(1);
 
-  CHECK_ARGUMENT_IN_INTS(1, pud, (PUD_OFF, PUD_DOWN, PUD_UP));
+  const std::vector<int> validInputs = { PUD_OFF, PUD_DOWN, PUD_UP };
 
-  ::pullUpDnControl(pin, pud);
-
+  if(find_int(pud, validInputs))
+  {
+    ::pullUpDnControl(pin, pud);
+  } else {
+    //throw error
+  }
 
 }
 
@@ -233,7 +204,7 @@ NAN_METHOD(pullUpDnControl) {
 // depending on the logic level at the pin.
 
 NAN_METHOD(digitalRead) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
 
@@ -258,7 +229,7 @@ NAN_METHOD(digitalRead) {
 // WiringPi treats any non-zero number as HIGH, however 0 is the only representation of LOW.
 
 NAN_METHOD(digitalWrite) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, state);
@@ -271,10 +242,15 @@ NAN_METHOD(digitalWrite) {
   int pin = GET_ARGUMENT_AS_INT32(0);
   int state = GET_ARGUMENT_AS_INT32(1);
 
-  CHECK_ARGUMENT_IN_INTS(1, state, (HIGH, LOW));
+  const std::vector<int> validStates = { HIGH, LOW };
 
-  ::digitalWrite(pin, state);
-
+  if(find_int(state, validStates)) {
+    ::digitalWrite(pin, state);
+  } else {
+    //throw error
+  }
+  
+  
 
 }
 
@@ -285,7 +261,7 @@ NAN_METHOD(digitalWrite) {
 // This function is not able to control the Pi's on-board PWM when in Sys mode.
 
 NAN_METHOD(pwmWrite) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, value);
@@ -304,7 +280,7 @@ NAN_METHOD(pwmWrite) {
 }
 
 NAN_METHOD(analogRead) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
 
@@ -323,7 +299,7 @@ NAN_METHOD(analogRead) {
 // additional analog modules to enable this function for devices such as the Gertboard.
 
 NAN_METHOD(analogWrite) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, value);
@@ -342,7 +318,7 @@ NAN_METHOD(analogWrite) {
 }
 
 NAN_METHOD(delay) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, ms);
 
@@ -358,7 +334,7 @@ NAN_METHOD(delay) {
 }
 
 NAN_METHOD(delayMicroseconds) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, us);
 
@@ -374,23 +350,21 @@ NAN_METHOD(delayMicroseconds) {
 }
 
 NAN_METHOD(millis) {
-  Nan::HandleScope();
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
   unsigned int ms = ::millis();
 
-  SCOPE_CLOSE(UINT32(ms));
+  info.GetReturnValue().Set(ms);
 }
 
 NAN_METHOD(micros) {
-  Nan::HandleScope();
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
   unsigned int us = ::micros();
 
-  SCOPE_CLOSE(UINT32(us));
+  info.GetReturnValue().Set(us);
 }
 
 // === Raspberry Pi specific ===
@@ -401,7 +375,6 @@ NAN_METHOD(micros) {
 // so if you are using BCM_GPIO pin numbers, then you need to be aware of the differences.
 
 NAN_METHOD(piBoardRev) {
-  Nan::HandleScope();
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
@@ -411,7 +384,6 @@ NAN_METHOD(piBoardRev) {
 }
 
 NAN_METHOD(piBoardId) {
-  Nan::HandleScope();
 
   CHECK_ARGUMENTS_LENGTH_EQUAL(0);
 
@@ -422,23 +394,14 @@ NAN_METHOD(piBoardId) {
 
   ::piBoardId(&model, &rev, &mem, &marker, &overvolted);
 
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-    Local<Object> obj = Object::New(isolate);
-    obj->Set(String::NewFromUtf8(isolate, "model", v8::String::kInternalizedString), INT32(model));
-    obj->Set(String::NewFromUtf8(isolate, "rev", v8::String::kInternalizedString), INT32(rev));
-    obj->Set(String::NewFromUtf8(isolate, "mem", v8::String::kInternalizedString), INT32(mem));
-    obj->Set(String::NewFromUtf8(isolate, "marker", v8::String::kInternalizedString), INT32(marker));
-    obj->Set(String::NewFromUtf8(isolate, "overvolted", v8::String::kInternalizedString), INT32(overvolted));
-  #else
-    Local<Object> obj = Object::New();
-    obj->Set(String::NewSymbol("model"), INT32(model));
-    obj->Set(String::NewSymbol("rev"), INT32(rev));
-    obj->Set(String::NewSymbol("mem"), INT32(mem));
-    obj->Set(String::NewSymbol("marker"), INT32(marker));
-    obj->Set(String::NewSymbol("overvolted"), INT32(overvolted));
-  #endif
-
-  SCOPE_CLOSE(obj);
+    Local<Object> obj = Nan::New<Object>();
+    obj->Set(STRING("model"), INT32(model));
+    obj->Set(STRING("rev"), INT32(rev));
+    obj->Set(STRING("mem"), INT32(mem));
+    obj->Set(STRING("marker"), INT32(marker));
+    obj->Set(STRING("overvolted"), INT32(overvolted));
+  
+  info.GetReturnValue().Set(obj);
 }
 
 // Func : int wpiPinToGpio(int wpiPin)
@@ -446,7 +409,7 @@ NAN_METHOD(piBoardId) {
 // It takes the board revision into account.
 
 NAN_METHOD(wpiPinToGpio) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
 
@@ -464,7 +427,7 @@ NAN_METHOD(wpiPinToGpio) {
 // Description : This returns the BCM_GPIO pin number of the suppled physical pin on the P1 connector.
 
 NAN_METHOD(physPinToGpio) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
 
@@ -484,7 +447,7 @@ NAN_METHOD(physPinToGpio) {
 // know what you are doing.
 
 NAN_METHOD(setPadDrive) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, group);
   SET_ARGUMENT_NAME(1, value);
@@ -507,7 +470,7 @@ NAN_METHOD(setPadDrive) {
 // for the gpio readall command (I think).
 
 NAN_METHOD(getAlt) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
 
@@ -522,7 +485,7 @@ NAN_METHOD(getAlt) {
 }
 
 NAN_METHOD(pwmToneWrite) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, frequency);
@@ -546,7 +509,7 @@ NAN_METHOD(pwmToneWrite) {
 // two write operations to the Pi’s GPIO hardware.
 
 NAN_METHOD(digitalWriteByte) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, byte);
 
@@ -566,7 +529,7 @@ NAN_METHOD(digitalWriteByte) {
 // You can switch modes by supplying the parameter: PWM_MODE_BAL or PWM_MODE_MS.
 
 NAN_METHOD(pwmSetMode) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, mode);
 
@@ -576,10 +539,13 @@ NAN_METHOD(pwmSetMode) {
 
   int mode = GET_ARGUMENT_AS_INT32(0);
 
-  CHECK_ARGUMENT_IN_INTS(0, mode, (PWM_MODE_BAL, PWM_MODE_MS));
+  const std::vector<int> validInts = { PWM_MODE_BAL, PWM_MODE_MS };
 
-  ::pwmSetMode(mode);
-
+  if(find_int(mode, validInts)) {
+    ::pwmSetMode(mode);
+  } else {
+    //throw error
+  }
 
 }
 
@@ -589,7 +555,7 @@ NAN_METHOD(pwmSetMode) {
 // the PWM system, you’ll need to read the Broadcom ARM peripherals manual.
 
 NAN_METHOD(pwmSetRange) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, range);
 
@@ -609,7 +575,7 @@ NAN_METHOD(pwmSetRange) {
 // the PWM system, you’ll need to read the Broadcom ARM peripherals manual.
 
 NAN_METHOD(pwmSetClock) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, divisor);
 
@@ -627,7 +593,7 @@ NAN_METHOD(pwmSetClock) {
 // Description : Set the frequency on a GPIO clock pin
 
 NAN_METHOD(gpioClockSet) {
-  Nan::HandleScope();
+
 
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, frequency);
@@ -747,3 +713,7 @@ NAN_MODULE_INIT(init_wiringPi) {
   NODE_DEFINE_CONSTANT(target, FSEL_ALT4);
   NODE_DEFINE_CONSTANT(target, FSEL_ALT5);
 }
+
+} //namespace nodewpi
+
+NODE_MODULE(wiringPi, nodewpi::init_wiringPi);

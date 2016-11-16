@@ -1,7 +1,7 @@
 #include "mcp4802.h"
 #include <mcp4802.h>
 
-DECLARE(mcp4802Setup);
+NAN_METHOD(mcp4802Setup);
 
 // Func : int mcp4802Setup(int pinBase, int spiChannel)
 

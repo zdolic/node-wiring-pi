@@ -3,6 +3,6 @@
 
   #include "addon.h"
   
-  DECLARE_EXPORT_INIT(softTone);
+  NAN_METHOD_EXPORT_INIT(softTone);
 
 #endif

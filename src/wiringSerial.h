@@ -3,6 +3,6 @@
 
   #include "addon.h"
   
-  DECLARE_EXPORT_INIT(wiringSerial);
+  NAN_METHOD_EXPORT_INIT(wiringSerial);
 
 #endif

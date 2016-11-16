@@ -3,6 +3,6 @@
 
   #include "addon.h"
   
-  DECLARE_EXPORT_INIT(wiringPiSPI);
+  NAN_METHOD_EXPORT_INIT(wiringPiSPI);
 
 #endif

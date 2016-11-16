@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(tcs34725);
+  NAN_METHOD_EXPORT_INIT(tcs34725);
 
 #endif

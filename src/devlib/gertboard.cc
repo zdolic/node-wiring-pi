@@ -1,7 +1,7 @@
 #include "gertboard.h"
 #include <gertboard.h>
 
-DECLARE(gertboardAnalogSetup);
+NAN_METHOD(gertboardAnalogSetup);
 
 IMPLEMENT(gertboardAnalogSetup) {
   SCOPE_OPEN();

@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(mcp3004);
+  NAN_METHOD_EXPORT_INIT(mcp3004);
 
 #endif

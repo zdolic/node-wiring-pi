@@ -1,7 +1,7 @@
 #include "sr595.h"
 #include <sr595.h>
 
-DECLARE(sr595Setup);
+NAN_METHOD(sr595Setup);
 
 // Func : int sr595Setup(const int pinBase, const int numPins, const int dataPin, const int clockPin, const int latchPin)
 

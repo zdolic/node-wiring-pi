@@ -3,6 +3,6 @@
 
   #include "../addon.h"
   
-  DECLARE_EXPORT_INIT(lcd128x64);
+  NAN_METHOD_EXPORT_INIT(lcd128x64);
 
 #endif

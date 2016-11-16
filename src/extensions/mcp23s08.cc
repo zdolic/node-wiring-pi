@@ -1,7 +1,7 @@
 #include "mcp23s08.h"
 #include <mcp23s08.h>
 
-DECLARE(mcp23s08Setup);
+NAN_METHOD(mcp23s08Setup);
 
 // Func int mcp23s08Setup(const int pinBase, const int spiChannel, const int devId)
 

@@ -1,7 +1,7 @@
 #include "sn3218.h"
 #include <sn3218.h>
 
-DECLARE(sn3218Setup);
+NAN_METHOD(sn3218Setup);
 
 // Func : int sn3128Setup(int pinBase)
 

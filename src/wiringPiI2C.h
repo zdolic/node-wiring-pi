@@ -3,6 +3,6 @@
 
   #include "addon.h"
   
-  DECLARE_EXPORT_INIT(wiringPiI2C);
+  NAN_METHOD_EXPORT_INIT(wiringPiI2C);
 
 #endif

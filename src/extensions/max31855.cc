@@ -1,7 +1,7 @@
 #include "max31855.h"
 #include <max31855.h>
 
-DECLARE(max31855Setup);
+NAN_METHOD(max31855Setup);
 
 // Func : int max31855Setup(int pinBase, int spiChannel)
 

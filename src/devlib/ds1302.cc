@@ -1,14 +1,14 @@
 #include "ds1302.h"
 #include <ds1302.h>
 
-DECLARE(ds1302rtcRead);
-DECLARE(ds1302rtcWrite);
-DECLARE(ds1302ramRead);
-DECLARE(ds1302ramWrite);
-DECLARE(ds1302clockRead);
-DECLARE(ds1302clockWrite);
-DECLARE(ds1302trickleCharge);
-DECLARE(ds1302setup);
+NAN_METHOD(ds1302rtcRead);
+NAN_METHOD(ds1302rtcWrite);
+NAN_METHOD(ds1302ramRead);
+NAN_METHOD(ds1302ramWrite);
+NAN_METHOD(ds1302clockRead);
+NAN_METHOD(ds1302clockWrite);
+NAN_METHOD(ds1302trickleCharge);
+NAN_METHOD(ds1302setup);
 
 // Func: unsigned int ds1302rtcRead (const int reg)
 // Description: Reads the data to/from the RTC register

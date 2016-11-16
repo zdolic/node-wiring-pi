@@ -1,7 +1,7 @@
 #include "mcp23008.h"
 #include <mcp23008.h>
 
-DECLARE(mcp23008Setup);
+NAN_METHOD(mcp23008Setup);
 
 // Func : int mcp23008Setup(int pinBase, int i2cAddress)
 

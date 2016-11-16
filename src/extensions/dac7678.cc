@@ -2,7 +2,7 @@
 #include <wiringPi.h>
 #include <dac7678.h>
 
-DECLARE(dac7678Setup);
+NAN_METHOD(dac7678Setup);
 
 IMPLEMENT(dac7678Setup) {
   SCOPE_OPEN();

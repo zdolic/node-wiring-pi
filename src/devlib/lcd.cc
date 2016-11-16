@@ -1,18 +1,18 @@
 #include "lcd.h"
 #include <lcd.h>
 
-DECLARE(lcdHome);
-DECLARE(lcdClear);
-DECLARE(lcdDisplay);
-DECLARE(lcdCursor);
-DECLARE(lcdCursorBlink);
-DECLARE(lcdSendCommand);
-DECLARE(lcdPosition);
-DECLARE(lcdCharDef);
-DECLARE(lcdPutchar);
-DECLARE(lcdPuts);
-DECLARE(lcdPrintf);
-DECLARE(lcdInit);
+NAN_METHOD(lcdHome);
+NAN_METHOD(lcdClear);
+NAN_METHOD(lcdDisplay);
+NAN_METHOD(lcdCursor);
+NAN_METHOD(lcdCursorBlink);
+NAN_METHOD(lcdSendCommand);
+NAN_METHOD(lcdPosition);
+NAN_METHOD(lcdCharDef);
+NAN_METHOD(lcdPutchar);
+NAN_METHOD(lcdPuts);
+NAN_METHOD(lcdPrintf);
+NAN_METHOD(lcdInit);
 
 IMPLEMENT(lcdHome) {
   SCOPE_OPEN();

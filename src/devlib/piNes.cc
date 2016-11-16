@@ -1,8 +1,8 @@
 #include "piNes.h"
 #include <piNes.h>
 
-DECLARE(setupNesJoystick);
-DECLARE(readNesJoystick);
+NAN_METHOD(setupNesJoystick);
+NAN_METHOD(readNesJoystick);
 
 IMPLEMENT(setupNesJoystick) {
   SCOPE_OPEN();
