@@ -20,7 +20,7 @@
       'cflags': [
         '-Wall',
         '-std=c++11',
-        '-stdlib=libc++'
+
       ],
       'conditions': [
         [ 'OS=="mac"', {

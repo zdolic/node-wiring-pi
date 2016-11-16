@@ -1,6 +1,8 @@
 #ifndef _ADDON_H_
 #define _ADDON_H_
 
+#include <stdarg.h>
+
 #include <algorithm>
 #include <iterator>
 #include <vector>
