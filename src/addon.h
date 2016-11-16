@@ -4,6 +4,7 @@
   #include <v8.h>
   #include <node_version.h>
   #include <node.h>
+  #include <nan.h>
 
   using namespace v8;
 
@@ -21,26 +22,23 @@
 
   bool find_string(const char* string, const char* array[], size_t s);
   bool find_int(const int value, const int array[], size_t s);
-
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-    void throw_error(v8::Isolate* isolate, const char* fmt, ...);
-  #else
-    void throw_error(const char* fmt, ...);
-  #endif
+  void throw_error(const char* format, ...);
 
   #if NODE_VERSION_AT_LEAST(0, 11, 0)
 
+//Replace with NODE_MODULE
     #define DECLARE(name) \
       namespace nodemodule { \
-        static void name(const v8::FunctionCallbackInfo<v8::Value>& args); \
+        static void name(const v8::FunctionCallbackInfo<v8::Value>& info); \
       }
 
+//replace with NAN_METHOD
     #define IMPLEMENT(name) \
-      void nodemodule::name(const v8::FunctionCallbackInfo<v8::Value>& args)
+      void nodemodule::name(const v8::FunctionCallbackInfo<v8::Value>& info)
 
     #define EXPORT_FUNCTION(name) \
 	NODE_SET_METHOD(target, #name, nodemodule::name);
- 
+
     #define EXPORT_CONSTANT_INT(constant)                                         \
       do {                                                                        \
         v8::Isolate* isolate = target->GetIsolate();                              \
@@ -132,19 +130,19 @@
     #define INIT(name) nodemodule::init##name(isolate, target);
 
     #define SCOPE_OPEN() \
-      v8::Isolate* isolate = args.GetIsolate(); \
+      v8::Isolate* isolate = info.GetIsolate(); \
       v8::HandleScope scope(isolate)
-    #define SCOPE_CLOSE(obj) args.GetReturnValue().Set(obj)
+    #define SCOPE_CLOSE(obj) info.GetReturnValue().Set(obj)
 
   #else
 
     #define DECLARE(name) \
       namespace nodemodule { \
-        static v8::Handle<v8::Value> name(const v8::Arguments& args); \
+        static v8::Handle<v8::Value> name(const v8::Arguments& info); \
       }
 
     #define IMPLEMENT(name) \
-      v8::Handle<v8::Value> nodemodule::name(const v8::Arguments& args)
+      v8::Handle<v8::Value> nodemodule::name(const v8::Arguments& info)
 
     #define EXPORT_FUNCTION(name)  \
       target->Set(v8::String::NewSymbol(#name), \
@@ -209,27 +207,18 @@
     #define STRING(v) v8::String::New(v)
   #endif
 
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-    #define THROW_ERROR(fmt, ...) \
-      throw_error(isolate, fmt, __VA_ARGS__); \
-      SCOPE_CLOSE(UNDEFINED());
-  #else
-    #define THROW_ERROR(fmt, ...) \
-      throw_error(fmt, __VA_ARGS__); \
-      SCOPE_CLOSE(UNDEFINED())
-  #endif
 
   #define SET_ARGUMENT_NAME(id, name) static const char* arg##id = #name
   #define GET_ARGUMENT_NAME(id) arg##id
 
   #define CHECK_ARGUMENTS_LENGTH_EQUAL(length) \
-    if (args.Length() != length) { \
-      THROW_ERROR("%s: arguments.length => (%i === %i) === false", __func__, args.Length(), length); \
+    if (info.Length() != length) { \
+      throw_error("%s: arguments.length => (%i === %i) === false", __func__, info.Length(), length); \
     }
 
   #define CHECK_ARGUMENT_TYPE(id, istype) \
-    if (!args[id]->istype()) { \
-      THROW_ERROR("%s: %s(arguments['%s']) === false", __func__, #istype, GET_ARGUMENT_NAME(id)); \
+    if (!info[id]->istype()) { \
+      throw_error("%s: %s(arguments['%s']) === false", __func__, #istype, GET_ARGUMENT_NAME(id)); \
     }
 
   #define CHECK_ARGUMENT_TYPE_ARRAY(id) CHECK_ARGUMENT_TYPE(id, IsArray)
@@ -240,47 +229,25 @@
   #define CHECK_ARGUMENT_TYPE_FUNCTION(id) CHECK_ARGUMENT_TYPE(id, IsFunction)
   #define CHECK_ARGUMENT_TYPE_OBJECT(id) CHECK_ARGUMENT_TYPE(id, IsObject)
   #define CHECK_ARGUMENT_TYPE_NODE_BUFFER(id) \
-    if (!(args[id]->IsObject() && node::Buffer::HasInstance(args[id]))) { \
-      THROW_ERROR("%s: %s(arguments['%s']) === false", __func__, "isBuffer", GET_ARGUMENT_NAME(id)); \
+    if (!(info[id]->IsObject() && node::Buffer::HasInstance(info[id]))) { \
+      throw_error("%s: %s(arguments['%s']) === false", __func__, "isBuffer", GET_ARGUMENT_NAME(id)); \
     }
 
   #define CHECK_ARGUMENT_ARRAY_LENGTH(id, length) \
-    if (!(v8::Local<v8::Array>::Cast(args[id])->Length() == length)) { \
-      THROW_ERROR("%s: (arguments['%s'].length === %i) === false", __func__, GET_ARGUMENT_NAME(id), length); \
+    if (!(v8::Local<v8::Array>::Cast(info[id])->Length() == length)) { \
+      throw_error("%s: (arguments['%s'].length === %i) === false", __func__, GET_ARGUMENT_NAME(id), length); \
     }
 
-  #define GET_ARGUMENT_AS_TYPE(id, type) args[id]->type()
+  #define GET_ARGUMENT_AS_TYPE(id, type) info[id]->type()
 
   #define GET_ARGUMENT_AS_INT32(id) GET_ARGUMENT_AS_TYPE(id, Int32Value)
   #define GET_ARGUMENT_AS_UINT32(id) GET_ARGUMENT_AS_TYPE(id, Uint32Value)
   #define GET_ARGUMENT_AS_NUMBER(id) GET_ARGUMENT_AS_TYPE(id, NumberValue)
   #define GET_ARGUMENT_AS_STRING(id) GET_ARGUMENT_AS_TYPE(id, ToString)
-  #define GET_ARGUMENT_AS_LOCAL_FUNCTION(id) v8::Local<v8::Function>::Cast(args[id])
+  #define GET_ARGUMENT_AS_LOCAL_FUNCTION(id) v8::Local<v8::Function>::Cast(info[id])
 
   #if !NODE_VERSION_AT_LEAST(0, 11, 0)
     #define GET_ARGUMENT_AS_PERSISTENT_FUNCTION(id) v8::Persistent<v8::Function>::New(GET_ARGUMENT_AS_LOCAL_FUNCTION(id))
   #endif
-
-  #define LIST(...) { __VA_ARGS__ }
-  #define CHECK_ARGUMENT_IN_STRINGS(id, value, T) \
-    { \
-      static const char* strings[] = LIST T; \
-      if (!find_string(*value, strings, sizeof(strings) / sizeof(char*))) { \
-        THROW_ERROR("%s: arguments['%s'] => (\"%s\" in %s) === false", __func__, GET_ARGUMENT_NAME(id), *value, #T); \
-      } \
-    }
-
-  #define CHECK_ARGUMENT_IN_INTS(id, value, T) \
-    { \
-      static const int ints[] = LIST T; \
-      if (!find_int(value, ints, sizeof(ints) / sizeof(int))) { \
-        THROW_ERROR("%s: arguments['%s'] => (%i in %s) === false", __func__, GET_ARGUMENT_NAME(id), value, #T); \
-      } \
-    }
-
-  #define CHECK_ARGUMENT_IN_RANGE(id, value, min, max) \
-    if (value < min || value > max) { \
-      THROW_ERROR("%s: arguments['%s'] => inRange(%i, [%i, %i]) === false", __func__, GET_ARGUMENT_NAME(id), value, min, max); \
-    }
 
 #endif

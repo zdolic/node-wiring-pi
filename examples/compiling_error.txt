@@ -1,0 +1,4 @@
+/Users/richard/Documents/wiring-pi/examples/test.cc:4:10: fatal error: 'v8.h' file not found
+#include <v8.h>
+         ^
+1 error generated.
