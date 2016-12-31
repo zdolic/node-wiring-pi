@@ -2,16 +2,11 @@
 #include <wiringPiSPI.h>
 #include <unistd.h>
 
-NAN_METHOD(wiringPiSPIGetFd);
-NAN_METHOD(wiringPiSPIDataRW);
-NAN_METHOD(wiringPiSPISetup);
-NAN_METHOD(wiringPiSPISetupMode);
-NAN_METHOD(wiringPiSPIClose);
-
+namespace nodewpi {
 // Func : int wiringPiSPIGetFd(int channel)
 
-IMPLEMENT(wiringPiSPIGetFd) {
-  SCOPE_OPEN();
+NAN_METHOD(wiringPiSPIGetFd) {
+
   
   SET_ARGUMENT_NAME(0, channel);
   
@@ -20,18 +15,19 @@ IMPLEMENT(wiringPiSPIGetFd) {
   CHECK_ARGUMENT_TYPE_INT32(0);
   
   int channel = GET_ARGUMENT_AS_INT32(0);
+  const std::vector<int> validChannels = { 0, 1 };
   
-  CHECK_ARGUMENT_IN_INTS(0, channel, (0, 1));
-  
-  int res = ::wiringPiSPIGetFd(channel);
-  
-  SCOPE_CLOSE(INT32(res));
+  if(find_int(channel, validChannels)) {
+    int res = ::wiringPiSPIGetFd(channel);
+    info.GetReturnValue().Set(res);
+  } else {
+    //throw error
+  }
 }
 
 // Func : wiringPiSPIDataRW(int channel, unsigned char* data, int len)
 
-IMPLEMENT(wiringPiSPIDataRW) {
-  SCOPE_OPEN();
+NAN_METHOD(wiringPiSPIDataRW) {
   
   SET_ARGUMENT_NAME(0, channel);
   SET_ARGUMENT_NAME(1, data);
@@ -41,21 +37,24 @@ IMPLEMENT(wiringPiSPIDataRW) {
   CHECK_ARGUMENT_TYPE_INT32(0);
   CHECK_ARGUMENT_TYPE_NODE_BUFFER(1);
   
+  const std::vector<int> validChannels = { 0, 1 };
+
   int channel = GET_ARGUMENT_AS_INT32(0);
-  char* data = node::Buffer::Data(args[1]->ToObject());
-  int length = node::Buffer::Length(args[1]->ToObject());
+  Local<Object> spiDataObj = info[1]->ToObject();
+  unsigned int length = info[1]->Uint32Value();
+  char* data = node::Buffer::Data(spiDataObj);
   
-  CHECK_ARGUMENT_IN_INTS(0, channel, (0, 1));
-  
-  int res = ::wiringPiSPIDataRW(channel, reinterpret_cast<unsigned char*>(data), length);
-  
-  SCOPE_CLOSE(INT32(res));
+  if(find_int(channel, validChannels)) {
+      ::wiringPiSPIDataRW(channel, reinterpret_cast<unsigned char*>(data), length);
+      info.GetReturnValue().Set(Nan::CopyBuffer(data, length).ToLocalChecked());
+  } else {
+    //throw error
+  }
 }
 
 // Func : int wiringPiSPISetup(int channel, int speed)
 
-IMPLEMENT(wiringPiSPISetup) {
-  SCOPE_OPEN();
+NAN_METHOD(wiringPiSPISetup) {
   
   SET_ARGUMENT_NAME(0, channel);
   SET_ARGUMENT_NAME(1, speed);
@@ -65,18 +64,20 @@ IMPLEMENT(wiringPiSPISetup) {
   CHECK_ARGUMENT_TYPE_INT32(0);
   CHECK_ARGUMENT_TYPE_INT32(1);
   
+  const std::vector<int> validChannels = { 0, 1 };
+
   int channel = GET_ARGUMENT_AS_INT32(0);
   int speed = GET_ARGUMENT_AS_INT32(1);
   
-  CHECK_ARGUMENT_IN_INTS(0, channel, (0, 1));
-  
-  int res = ::wiringPiSPISetup(channel, speed);
-  
-  SCOPE_CLOSE(INT32(res));
+  if(find_int(channel, validChannels)) {
+    int res = ::wiringPiSPISetup(channel, speed);
+    info.GetReturnValue().Set(res);
+  } else {
+    //throw error
+  }
 }
 
-IMPLEMENT(wiringPiSPISetupMode) {
-  SCOPE_OPEN();
+NAN_METHOD(wiringPiSPISetupMode) {
   
   SET_ARGUMENT_NAME(0, channel);
   SET_ARGUMENT_NAME(1, speed);
@@ -92,20 +93,26 @@ IMPLEMENT(wiringPiSPISetupMode) {
   int speed = GET_ARGUMENT_AS_INT32(1);
   int mode = GET_ARGUMENT_AS_INT32(2);
   
-  CHECK_ARGUMENT_IN_INTS(0, channel, (0, 1));
-  CHECK_ARGUMENT_IN_INTS(2, mode, (0, 1, 2, 3));
+  const std::vector<int> validChannels = { 0, 1 };
+  const std::vector<int> validModes = { 0, 1, 2, 3 };
   
-  int res = ::wiringPiSPISetupMode(channel, speed, mode);
-  
-  SCOPE_CLOSE(INT32(res));
+  if (find_int(channel, validChannels)) {
+    if (find_int(mode, validModes)) {
+      int res = ::wiringPiSPISetupMode(channel, speed, mode);
+      info.GetReturnValue().Set(res);
+    } else {
+      //throw mode error
+    } 
+  } else { 
+    // throw channel error
+  }
 }
 
 // Func : void wiringPiSPIClose(const int fd)
 // Description : This closes opened SPI file descriptor
 // fd is file descriptor returned either from wiringPiSPISetup or wiringPiSPISetupMode
 
-IMPLEMENT(wiringPiSPIClose) {
-  SCOPE_OPEN();
+NAN_METHOD(wiringPiSPIClose) {
 
   SET_ARGUMENT_NAME(0, fd);
 
@@ -117,13 +124,16 @@ IMPLEMENT(wiringPiSPIClose) {
 
   ::close(fd);
 
-  SCOPE_CLOSE(UNDEFINED());
 }
 
-IMPLEMENT_EXPORT_INIT(wiringPiSPI) {
-  EXPORT_FUNCTION(wiringPiSPIGetFd);
-  EXPORT_FUNCTION(wiringPiSPIDataRW);
-  EXPORT_FUNCTION(wiringPiSPISetup);
-  EXPORT_FUNCTION(wiringPiSPISetupMode);
-  EXPORT_FUNCTION(wiringPiSPIClose);
+NAN_MODULE_INIT(init_wiringPiSPI) {
+   NAN_EXPORT(target, wiringPiSPIGetFd);
+   NAN_EXPORT(target, wiringPiSPIDataRW);
+   NAN_EXPORT(target, wiringPiSPISetup);
+   NAN_EXPORT(target, wiringPiSPISetupMode);
+   NAN_EXPORT(target, wiringPiSPIClose);
 }
+
+} //namespace nodewpi
+
+NODE_MODULE(wiringPiSPI, nodewpi::init_wiringPiSPI)

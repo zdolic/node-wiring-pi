@@ -6,6 +6,14 @@
         'src/addon.cc',
         
         'src/wiringPi.cc',
+        'src/softPwm.cc',
+        'src/softServo.cc',
+        'src/softTone.cc',
+        'src/wiringPiI2C.cc',
+
+        'src/wiringPiSPI.cc',
+        'src/wiringSerial.cc',
+        'src/wiringShift.cc',
 
       ],
       'include_dirs': [

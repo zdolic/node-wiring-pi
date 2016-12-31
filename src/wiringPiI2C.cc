@@ -2,222 +2,209 @@
 #include <wiringPiI2C.h>
 #include <unistd.h>
 
-NAN_METHOD(wiringPiI2CRead);
-NAN_METHOD(wiringPiI2CReadReg8);
-NAN_METHOD(wiringPiI2CReadReg16);
-NAN_METHOD(wiringPiI2CWrite);
-NAN_METHOD(wiringPiI2CWriteReg8);
-NAN_METHOD(wiringPiI2CWriteReg16);
-NAN_METHOD(wiringPiI2CSetupInterface);
-NAN_METHOD(wiringPiI2CSetup);
-NAN_METHOD(wiringPiI2CClose);
+namespace nodewpi {
 
-// Func : int wiringPiI2CRead (int fd);
-// Simple device read. Some devices present data when you read them without having to do any register transactions.
+  // Func : int wiringPiI2CRead (int fd);
+  // Simple device read. Some devices present data when you read them without having to do any register transactions.
 
-IMPLEMENT(wiringPiI2CRead) {
-  SCOPE_OPEN();
-  
-  SET_ARGUMENT_NAME(0, fd);
-  
-  CHECK_ARGUMENTS_LENGTH_EQUAL(1);
-  
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  
-  int fd = GET_ARGUMENT_AS_INT32(0);
-  
-  int res = ::wiringPiI2CRead(fd);
-  
-  SCOPE_CLOSE(INT32(res));
-}
+  NAN_METHOD(wiringPiI2CRead) {
+    
+    SET_ARGUMENT_NAME(0, fd);
+    
+    CHECK_ARGUMENTS_LENGTH_EQUAL(1);
+    
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    
+    int fd = GET_ARGUMENT_AS_INT32(0);
+    
+    int res = ::wiringPiI2CRead(fd);
+    
+    info.GetReturnValue().Set(res);
+  }
 
-// Func : int wiringPiI2CRead (int fd, int reg);
-// read an 8-bits value from the device register indicated.
+  // Func : int wiringPiI2CRead (int fd, int reg);
+  // read an 8-bits value from the device register indicated.
 
-IMPLEMENT(wiringPiI2CReadReg8) {
-  SCOPE_OPEN();
-  
-  SET_ARGUMENT_NAME(0, fd);
-  SET_ARGUMENT_NAME(1, reg);
-  
-  CHECK_ARGUMENTS_LENGTH_EQUAL(2);
-  
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  CHECK_ARGUMENT_TYPE_INT32(1);
-  
-  int fd = GET_ARGUMENT_AS_INT32(0);
-  int reg = GET_ARGUMENT_AS_INT32(1);
-  
-  int res = ::wiringPiI2CReadReg8(fd, reg);
-  
-  SCOPE_CLOSE(INT32(res));
-}
+  NAN_METHOD(wiringPiI2CReadReg8) {
+    
+    SET_ARGUMENT_NAME(0, fd);
+    SET_ARGUMENT_NAME(1, reg);
+    
+    CHECK_ARGUMENTS_LENGTH_EQUAL(2);
+    
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    CHECK_ARGUMENT_TYPE_INT32(1);
+    
+    int fd = GET_ARGUMENT_AS_INT32(0);
+    int reg = GET_ARGUMENT_AS_INT32(1);
+    
+    int res = ::wiringPiI2CReadReg8(fd, reg);
+    
+    info.GetReturnValue().Set(res);
+  }
 
-// Func : int wiringPiI2CRead (int fd, int reg)
-// read a 16-bits value from the device register indicated.
+  // Func : int wiringPiI2CRead (int fd, int reg)
+  // read a 16-bits value from the device register indicated.
 
-IMPLEMENT(wiringPiI2CReadReg16) {
-  SCOPE_OPEN();
+  NAN_METHOD(wiringPiI2CReadReg16) {
 
-  SET_ARGUMENT_NAME(0, fd);
-  SET_ARGUMENT_NAME(1, reg);
+    SET_ARGUMENT_NAME(0, fd);
+    SET_ARGUMENT_NAME(1, reg);
 
-  CHECK_ARGUMENTS_LENGTH_EQUAL(2);
+    CHECK_ARGUMENTS_LENGTH_EQUAL(2);
 
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  CHECK_ARGUMENT_TYPE_INT32(1);
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    CHECK_ARGUMENT_TYPE_INT32(1);
 
-  int fd = GET_ARGUMENT_AS_INT32(0);
-  int reg = GET_ARGUMENT_AS_INT32(1);
+    int fd = GET_ARGUMENT_AS_INT32(0);
+    int reg = GET_ARGUMENT_AS_INT32(1);
 
-  int res = ::wiringPiI2CReadReg16(fd, reg);
+    int res = ::wiringPiI2CReadReg16(fd, reg);
 
-  SCOPE_CLOSE(INT32(res));
-}
+    info.GetReturnValue().Set(res);
+  }
 
-// Func : int wiringPiI2CWrite (int fd, int data)
-// Simple device write. Some devices accept data this way without needing to access any internal registers.
+  // Func : int wiringPiI2CWrite (int fd, int data)
+  // Simple device write. Some devices accept data this way without needing to access any internal registers.
 
-IMPLEMENT(wiringPiI2CWrite) {
-  SCOPE_OPEN();
-  
-  SET_ARGUMENT_NAME(0, fd);
-  SET_ARGUMENT_NAME(1, data);
-  
-  CHECK_ARGUMENTS_LENGTH_EQUAL(2);
-  
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  CHECK_ARGUMENT_TYPE_INT32(1);
-  
-  int fd = GET_ARGUMENT_AS_INT32(0);
-  int data = GET_ARGUMENT_AS_INT32(1);
-  data = data & 0xFF;
-  
-  int res = ::wiringPiI2CWrite(fd, data);
-  
-  SCOPE_CLOSE(INT32(res));
-}
+  NAN_METHOD(wiringPiI2CWrite) {
 
-// Func : int wiringPiI2CWriteReg8 (int fd, int reg, int data)
-// write an 8-bit data value into the device register indicated.
+    SET_ARGUMENT_NAME(0, fd);
+    SET_ARGUMENT_NAME(1, data);
+    
+    CHECK_ARGUMENTS_LENGTH_EQUAL(2);
+    
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    CHECK_ARGUMENT_TYPE_INT32(1);
+    
+    int fd = GET_ARGUMENT_AS_INT32(0);
+    int data = GET_ARGUMENT_AS_INT32(1);
+    data = data & 0xFF;
+    
+    int res = ::wiringPiI2CWrite(fd, data);
+    
+    info.GetReturnValue().Set(res);
+  }
 
-IMPLEMENT(wiringPiI2CWriteReg8) {
-  SCOPE_OPEN();
+  // Func : int wiringPiI2CWriteReg8 (int fd, int reg, int data)
+  // write an 8-bit data value into the device register indicated.
 
-  SET_ARGUMENT_NAME(0, fd);
-  SET_ARGUMENT_NAME(1, reg);
-  SET_ARGUMENT_NAME(2, data);
+  NAN_METHOD(wiringPiI2CWriteReg8) {
 
-  CHECK_ARGUMENTS_LENGTH_EQUAL(3);
+    SET_ARGUMENT_NAME(0, fd);
+    SET_ARGUMENT_NAME(1, reg);
+    SET_ARGUMENT_NAME(2, data);
 
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  CHECK_ARGUMENT_TYPE_INT32(1);
-  CHECK_ARGUMENT_TYPE_INT32(2);
+    CHECK_ARGUMENTS_LENGTH_EQUAL(3);
 
-  int fd = GET_ARGUMENT_AS_INT32(0);
-  int reg = GET_ARGUMENT_AS_INT32(1);
-  int data = GET_ARGUMENT_AS_INT32(2);
-  data = data & 0xFF;
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    CHECK_ARGUMENT_TYPE_INT32(1);
+    CHECK_ARGUMENT_TYPE_INT32(2);
 
-  int res = ::wiringPiI2CWriteReg8(fd, reg, data);
+    int fd = GET_ARGUMENT_AS_INT32(0);
+    int reg = GET_ARGUMENT_AS_INT32(1);
+    int data = GET_ARGUMENT_AS_INT32(2);
+    data = data & 0xFF;
 
-  SCOPE_CLOSE(INT32(res));
-}
+    int res = ::wiringPiI2CWriteReg8(fd, reg, data);
 
-IMPLEMENT(wiringPiI2CWriteReg16) {
-  SCOPE_OPEN();
+    info.GetReturnValue().Set(res);
+  }
 
-  SET_ARGUMENT_NAME(0, fd);
-  SET_ARGUMENT_NAME(1, reg);
-  SET_ARGUMENT_NAME(2, data);
+  NAN_METHOD(wiringPiI2CWriteReg16) {
 
-  CHECK_ARGUMENTS_LENGTH_EQUAL(3);
 
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  CHECK_ARGUMENT_TYPE_INT32(1);
-  CHECK_ARGUMENT_TYPE_INT32(2);
+    SET_ARGUMENT_NAME(0, fd);
+    SET_ARGUMENT_NAME(1, reg);
+    SET_ARGUMENT_NAME(2, data);
 
-  int fd = GET_ARGUMENT_AS_INT32(0);
-  int reg = GET_ARGUMENT_AS_INT32(1);
-  int data = GET_ARGUMENT_AS_INT32(2);
-  data = data & 0xFFFF;
+    CHECK_ARGUMENTS_LENGTH_EQUAL(3);
 
-  int res = ::wiringPiI2CWriteReg16(fd, reg, data);
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    CHECK_ARGUMENT_TYPE_INT32(1);
+    CHECK_ARGUMENT_TYPE_INT32(2);
 
-  SCOPE_CLOSE(INT32(res));
-}
+    int fd = GET_ARGUMENT_AS_INT32(0);
+    int reg = GET_ARGUMENT_AS_INT32(1);
+    int data = GET_ARGUMENT_AS_INT32(2);
+    data = data & 0xFFFF;
 
-// Func : int wiringPiI2CSetupInterface (const char *device, int devId)
+    int res = ::wiringPiI2CWriteReg16(fd, reg, data);
 
-IMPLEMENT(wiringPiI2CSetupInterface) {
-  SCOPE_OPEN();
-  
-  SET_ARGUMENT_NAME(0, device);
-  SET_ARGUMENT_NAME(1, devId);
-  
-  CHECK_ARGUMENTS_LENGTH_EQUAL(2);
-  
-  CHECK_ARGUMENT_TYPE_STRING(0);
-  CHECK_ARGUMENT_TYPE_INT32(1);
-  
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-    String::Utf8Value device(GET_ARGUMENT_AS_STRING(0));
-  #else
-    String::AsciiValue device(GET_ARGUMENT_AS_STRING(0));
-  #endif
-  int devId = GET_ARGUMENT_AS_INT32(1);
-  
-  int res = ::wiringPiI2CSetupInterface(*device, devId);
-  
-  SCOPE_CLOSE(INT32(res));
-}
+    info.GetReturnValue().Set(res);
+  }
 
-// Func : int wirintPiI2CSetup (int devId)
+  // Func : int wiringPiI2CSetupInterface (const char *device, int devId)
 
-IMPLEMENT(wiringPiI2CSetup) {
-  SCOPE_OPEN();
-  
-  SET_ARGUMENT_NAME(0, devId);
-  
-  CHECK_ARGUMENTS_LENGTH_EQUAL(1);
-  
-  CHECK_ARGUMENT_TYPE_INT32(0);
-  
-  int devId = GET_ARGUMENT_AS_INT32(0);
-  
-  int res = ::wiringPiI2CSetup(devId);
-  
-  SCOPE_CLOSE(INT32(res));
-}
+  NAN_METHOD(wiringPiI2CSetupInterface) {
 
-// Func : void wiringPiI2CClose(const int fd)
-// Description : This closes opened I2C file descriptor
-// fd is file descriptor returned either from wiringPiI2CSetup or wiringPiI2CSetupInterface
+    
+    SET_ARGUMENT_NAME(0, device);
+    SET_ARGUMENT_NAME(1, devId);
+    
+    CHECK_ARGUMENTS_LENGTH_EQUAL(2);
+    
+    CHECK_ARGUMENT_TYPE_STRING(0);
+    CHECK_ARGUMENT_TYPE_INT32(1);
+    
+    Nan::Utf8String device(GET_ARGUMENT_AS_STRING(0));
+    
+    int devId = GET_ARGUMENT_AS_INT32(1);
+    
+    int res = ::wiringPiI2CSetupInterface(*device, devId);
+    
+    info.GetReturnValue().Set(res);
+  }
 
-IMPLEMENT(wiringPiI2CClose) {
-  SCOPE_OPEN();
+  // Func : int wirintPiI2CSetup (int devId)
 
-  SET_ARGUMENT_NAME(0, fd);
+  NAN_METHOD(wiringPiI2CSetup) {
 
-  CHECK_ARGUMENTS_LENGTH_EQUAL(1);
+    
+    SET_ARGUMENT_NAME(0, devId);
+    
+    CHECK_ARGUMENTS_LENGTH_EQUAL(1);
+    
+    CHECK_ARGUMENT_TYPE_INT32(0);
+    
+    int devId = GET_ARGUMENT_AS_INT32(0);
+    
+    int res = ::wiringPiI2CSetup(devId);
+    
+    info.GetReturnValue().Set(res);
+  }
 
-  CHECK_ARGUMENT_TYPE_INT32(0);
+  // Func : void wiringPiI2CClose(const int fd)
+  // Description : This closes opened I2C file descriptor
+  // fd is file descriptor returned either from wiringPiI2CSetup or wiringPiI2CSetupInterface
 
-  int fd = GET_ARGUMENT_AS_INT32(0);
+  NAN_METHOD(wiringPiI2CClose) {
 
-  ::close(fd);
+    SET_ARGUMENT_NAME(0, fd);
 
-  SCOPE_CLOSE(UNDEFINED());
-}
+    CHECK_ARGUMENTS_LENGTH_EQUAL(1);
 
-IMPLEMENT_EXPORT_INIT(wiringPiI2C) {
-  EXPORT_FUNCTION(wiringPiI2CRead);
-  EXPORT_FUNCTION(wiringPiI2CReadReg8);
-  EXPORT_FUNCTION(wiringPiI2CReadReg16);
-  EXPORT_FUNCTION(wiringPiI2CWrite);
-  EXPORT_FUNCTION(wiringPiI2CWriteReg8);
-  EXPORT_FUNCTION(wiringPiI2CWriteReg16);
-  EXPORT_FUNCTION(wiringPiI2CSetupInterface);
-  EXPORT_FUNCTION(wiringPiI2CSetup);
-  EXPORT_FUNCTION(wiringPiI2CClose);
-}
+    CHECK_ARGUMENT_TYPE_INT32(0);
+
+    int fd = GET_ARGUMENT_AS_INT32(0);
+
+    ::close(fd);
+
+
+  }
+
+  NAN_MODULE_INIT(init_wiringPiI2C) {
+    NAN_EXPORT(target, wiringPiI2CRead);
+    NAN_EXPORT(target, wiringPiI2CReadReg8);
+    NAN_EXPORT(target, wiringPiI2CReadReg16);
+    NAN_EXPORT(target, wiringPiI2CWrite);
+    NAN_EXPORT(target, wiringPiI2CWriteReg8);
+    NAN_EXPORT(target, wiringPiI2CWriteReg16);
+    NAN_EXPORT(target, wiringPiI2CSetupInterface);
+    NAN_EXPORT(target, wiringPiI2CSetup);
+    NAN_EXPORT(target, wiringPiI2CClose);
+  }
+
+} //namespace nodewpi
+
+NODE_MODULE(wiringPiI2C, nodewpi::init_wiringPiI2C)

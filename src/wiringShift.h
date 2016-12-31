@@ -2,7 +2,9 @@
 #define _WPI_WIRING_SHIFT_H_
 
   #include "addon.h"
-  
-  NAN_METHOD_EXPORT_INIT(wiringShift);
-
+  namespace nodewpi {
+    NAN_METHOD(shiftIn);
+    NAN_METHOD(shiftOut);
+    NAN_MODULE_INIT(init_wiringShift);
+  }
 #endif

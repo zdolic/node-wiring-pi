@@ -12,7 +12,7 @@
   using namespace v8;
 
   // We don't want to include the whole node headers :)
-  namespace node {
+/*  namespace node {
     namespace Buffer {
       bool HasInstance(v8::Handle<v8::Value> val);
       bool HasInstance(v8::Handle<v8::Object> val);
@@ -21,7 +21,7 @@
       size_t Length(v8::Handle<v8::Value> val);
       size_t Length(v8::Handle<v8::Object> val);
     }
-  }
+  }*/
 
   bool find_string(const std::string & value, const std::vector<std::string> & validStrings );
   bool find_int(const int & value, const std::vector<int> & validInts );
@@ -102,11 +102,6 @@
         }                                                                           \
         while (0)
 
-    #define NODE_MODULE_INIT() \
-      namespace nodemodule { \
-        void init(v8::Handle<v8::Object> target); \
-      } \
-      void nodemodule::init(v8::Handle<v8::Object> target)
 
   #define INT32(v) Nan::New<v8::Int32>(v)
   #define UINT32(v) Nan::New<v8::Uint32>(v)

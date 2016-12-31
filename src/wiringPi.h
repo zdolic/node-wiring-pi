@@ -1,13 +1,13 @@
 #ifndef _WPI_WIRING_PI_H_
 #define _WPI_WIRING_PI_H_
-#endif
+
 
 #include "addon.h"
-//#include "softPwm.h"
-//#include "softServo.h"
-//#include "softTone.h"
-//#include "wiringPiI2C.h"
-//#include "wiringPiSPI.h"
+#include "softPwm.h"
+#include "softServo.h"
+#include "softTone.h"
+#include "wiringPiI2C.h"
+#include "wiringPiSPI.h"
 //#include "wiringSerial.h"
 //#include "wiringShift.h"
 //#include "wiringPiISR.h"
@@ -65,3 +65,5 @@ namespace nodewpi {
   NAN_MODULE_INIT(init_wiringPi);
 
 }
+
+#endif

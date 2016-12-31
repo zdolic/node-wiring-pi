@@ -1,10 +1,6 @@
 #include "softPwm.h"
 #include <softPwm.h>
 
-NAN_METHOD(softPwmCreate);
-NAN_METHOD(softPwmWrite);
-NAN_METHOD(softPwmStop);
-
 // Func : int softPwmCreate(int pin, int value, int range)
 // Description : This creates a software controlled PWM pin. 
 // You can use any GPIO pin and the pin numbering will be that of the wiringPiSetup() function you used. 
@@ -18,8 +14,9 @@ NAN_METHOD(softPwmStop);
 // NOTE4 : There is currently no way to disable softPWM on a pin while the program in running.
 // NOTE5 : You need to keep your program running to maintain the PWM output!
 
-IMPLEMENT(softPwmCreate) {
-  SCOPE_OPEN();
+namespace nodewpi {
+
+NAN_METHOD(softPwmCreate) {
   
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, value);
@@ -37,15 +34,14 @@ IMPLEMENT(softPwmCreate) {
   
   int res = ::softPwmCreate(pin, value, range);
   
-  SCOPE_CLOSE(INT32(res));
+  info.GetReturnValue().Set(res);
 }
 
 // Func void softPwmWrite(int pin, int value)
 // Description : This updates the PWM value on the given pin. 
 // The value is checked to be in-range and pins that haven’t previously been initialised via softPwmCreate will be silently ignored.
 
-IMPLEMENT(softPwmWrite) {
-  SCOPE_OPEN();
+NAN_METHOD(softPwmWrite) {
   
   SET_ARGUMENT_NAME(0, pin);
   SET_ARGUMENT_NAME(1, value);
@@ -60,11 +56,9 @@ IMPLEMENT(softPwmWrite) {
   
   ::softPwmWrite(pin, value);
   
-  SCOPE_CLOSE(UNDEFINED());
 }
 
-IMPLEMENT(softPwmStop) {
-  SCOPE_OPEN();
+NAN_METHOD(softPwmStop) {
   
   SET_ARGUMENT_NAME(0, pin);
   
@@ -76,11 +70,14 @@ IMPLEMENT(softPwmStop) {
   
   ::softPwmStop(pin);
   
-  SCOPE_CLOSE(UNDEFINED());
 }
 
-IMPLEMENT_EXPORT_INIT(softPwm) {
-  EXPORT_FUNCTION(softPwmCreate);
-  EXPORT_FUNCTION(softPwmWrite);
-  EXPORT_FUNCTION(softPwmStop);
+NAN_MODULE_INIT(init_softPwm) {
+  NAN_EXPORT(target, softPwmCreate);
+  NAN_EXPORT(target, softPwmWrite);
+  NAN_EXPORT(target, softPwmStop);
 }
+
+} //namespace nodewpi
+
+NODE_MODULE(softPwm, nodewpi::init_softPwm)

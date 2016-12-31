@@ -1,7 +1,7 @@
 {
-  "name": "wiring-pi-rsg98",
+  "name": "node-wiring-pi",
   "version": "0.0.1",
-  "description": "Bindings to wiringPi",
+  "description": "Bindings to native wiringPi",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rsg98/wiring-pi.git"
+    "url": "https://github.com/rsg98/node-wiring-pi.git"
   },
   "keywords": [
     "wiringPi",

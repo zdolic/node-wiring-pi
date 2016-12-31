@@ -1,19 +1,10 @@
 #include "wiringSerial.h"
 #include <wiringSerial.h>
 
-NAN_METHOD(serialOpen);
-NAN_METHOD(serialClose);
-NAN_METHOD(serialFlush);
-NAN_METHOD(serialPutchar);
-NAN_METHOD(serialPuts);
-NAN_METHOD(serialPrintf);
-NAN_METHOD(serialDataAvail);
-NAN_METHOD(serialGetchar);
-
 // Func : int serialOpen(const char* device, const int baud)
+namespace nodewpi {
 
-IMPLEMENT(serialOpen) {
-  SCOPE_OPEN();
+NAN_METHOD(serialOpen) {
   
   SET_ARGUMENT_NAME(0, device);
   SET_ARGUMENT_NAME(1, baudrate);
@@ -32,14 +23,13 @@ IMPLEMENT(serialOpen) {
   
   int res = ::serialOpen(*device, baudrate);
   
-  SCOPE_CLOSE(INT32(res));
+  info.GetReturnValue().Set(res);
 }
 
 // Func : void serialClose(const int fd)
 
-IMPLEMENT(serialClose) {
-  SCOPE_OPEN();
-  
+NAN_METHOD(serialClose) {
+
   SET_ARGUMENT_NAME(0, fd);
   
   CHECK_ARGUMENTS_LENGTH_EQUAL(1);
@@ -50,13 +40,12 @@ IMPLEMENT(serialClose) {
   
   ::serialClose(fd);
   
-  SCOPE_CLOSE(UNDEFINED());
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 // Func : void serialFlush(const int fd);
 
-IMPLEMENT(serialFlush) {
-  SCOPE_OPEN();
+NAN_METHOD(serialFlush) {
   
   SET_ARGUMENT_NAME(0, fd);
   
@@ -68,14 +57,13 @@ IMPLEMENT(serialFlush) {
   
   ::serialFlush(fd);
   
-  SCOPE_CLOSE(UNDEFINED());
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 // Func : void serialPutchar(const int fd, const unsigned char c)
 
-IMPLEMENT(serialPutchar) {
-  SCOPE_OPEN();
-  
+NAN_METHOD(serialPutchar) {
+ 
   SET_ARGUMENT_NAME(0, fd);
   SET_ARGUMENT_NAME(1, character);
   
@@ -89,14 +77,13 @@ IMPLEMENT(serialPutchar) {
   
   ::serialPutchar(fd, character);
   
-  SCOPE_CLOSE(UNDEFINED());
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 // Func : void serialPuts(const int fd, const char* s)
 
-IMPLEMENT(serialPuts) {
-  SCOPE_OPEN();
-  
+NAN_METHOD(serialPuts) {
+ 
   SET_ARGUMENT_NAME(0, fd);
   SET_ARGUMENT_NAME(1, string);
   
@@ -106,28 +93,23 @@ IMPLEMENT(serialPuts) {
   CHECK_ARGUMENT_TYPE_STRING(1);
   
   int fd = GET_ARGUMENT_AS_INT32(0);
-  #if NODE_VERSION_AT_LEAST(0, 11, 0)
-    String::Utf8Value string(GET_ARGUMENT_AS_STRING(1));
-  #else
-    String::AsciiValue string(GET_ARGUMENT_AS_STRING(1));
-  #endif
+  Nan::Utf8String string(GET_ARGUMENT_AS_STRING(1));
   
   ::serialPuts(fd, *string);
   
-  SCOPE_CLOSE(UNDEFINED());
+  info.GetReturnValue().Set(Nan::Undefined());
 }
 
 // Func : void serialPrintf(const int fd, const char* message, ...)
 
-IMPLEMENT(serialPrintf) {
+NAN_METHOD(serialPrintf) {
   // Make serialPrintf a alias to serialPuts
-  return serialPuts(args);
+  return serialPuts(info);
 }
 
 // Func : int serialDataAvail(const int fd)
 
-IMPLEMENT(serialDataAvail) {
-  SCOPE_OPEN();
+NAN_METHOD(serialDataAvail) {
   
   SET_ARGUMENT_NAME(0, fd);
   
@@ -139,15 +121,12 @@ IMPLEMENT(serialDataAvail) {
   
   int res = ::serialDataAvail(fd);
   
-  SCOPE_CLOSE(INT32(res));
+  info.GetReturnValue().Set(res);
 }
 
 // Func : int serialGetchar(const int fd)
-// NOTE TO MYSELF : I don't understand why serialPutchar takes a unsigned char and on the other side
-// serialGetchar returns a int ... serialGetchar should returns a unsigned char too.
 
-IMPLEMENT(serialGetchar) {
-  SCOPE_OPEN();
+NAN_METHOD(serialGetchar) {
   
   SET_ARGUMENT_NAME(0, fd);
   
@@ -159,16 +138,20 @@ IMPLEMENT(serialGetchar) {
   
   int res = ::serialGetchar(fd);
   
-  SCOPE_CLOSE(INT32(res));
+  info.GetReturnValue().Set(res);
 }
 
-IMPLEMENT_EXPORT_INIT(wiringSerial) {
-  EXPORT_FUNCTION(serialOpen);
-  EXPORT_FUNCTION(serialClose);
-  EXPORT_FUNCTION(serialFlush);
-  EXPORT_FUNCTION(serialPutchar);
-  EXPORT_FUNCTION(serialPuts);
-  EXPORT_FUNCTION(serialPrintf);
-  EXPORT_FUNCTION(serialDataAvail);
-  EXPORT_FUNCTION(serialGetchar);
+NAN_MODULE_INIT(init_wiringSerial) {
+  NAN_EXPORT(target, serialOpen);
+  NAN_EXPORT(target, serialClose);
+  NAN_EXPORT(target, serialFlush);
+  NAN_EXPORT(target, serialPutchar);
+  NAN_EXPORT(target, serialPuts);
+  NAN_EXPORT(target, serialPrintf);
+  NAN_EXPORT(target, serialDataAvail);
+  NAN_EXPORT(target, serialGetchar);
 }
+
+} //namespace nodewpi
+
+NODE_MODULE(wiringSerial, nodewpi::init_wiringSerial)

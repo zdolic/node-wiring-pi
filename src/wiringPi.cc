@@ -716,4 +716,4 @@ NAN_MODULE_INIT(init_wiringPi) {
 
 } //namespace nodewpi
 
-NODE_MODULE(wiringPi, nodewpi::init_wiringPi);
+NODE_MODULE(wiringPi, nodewpi::init_wiringPi)
