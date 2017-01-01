@@ -150,4 +150,6 @@
     #define GET_ARGUMENT_AS_PERSISTENT_FUNCTION(id) v8::Persistent<v8::Function>::New(GET_ARGUMENT_AS_LOCAL_FUNCTION(id))
   #endif
 
+  #define SUB_INIT(name) void init_##name(v8::Local<v8::Object> target)
+
 #endif

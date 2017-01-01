@@ -611,7 +611,7 @@ NAN_METHOD(gpioClockSet) {
 
 }
 
-NAN_MODULE_INIT(init_wiringPi) {
+SUB_INIT(wiringPi) {
   // Setup
   NAN_EXPORT(target, setup);
   NAN_EXPORT(target, wiringPiSetup);
