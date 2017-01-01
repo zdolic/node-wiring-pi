@@ -12,5 +12,5 @@ if [ "" == "$PKG_OK" ]; then
   #sudo apt-get --force-yes --yes install wiringpi
 fi
 
-echo -n "Building node-wiring-pi ... "
+echo "Building node-wiring-pi ... "
 node-gyp rebuild 2>&1 | tee -a ./install.log

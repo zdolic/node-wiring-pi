@@ -29,7 +29,7 @@
     "Leandre Gohy <leandre.gohy@hexeo.be>",
     "Eugene Ware <eugene@noblesamurai.com>"
   ],
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "nan": "^2.4.0"
   }
