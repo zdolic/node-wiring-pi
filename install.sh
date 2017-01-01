@@ -2,14 +2,15 @@
 
 rm ./install.log 2>/dev/null 1>&2
 
-echo -n "Cloning wiringPi... "
-rm -Rf ./wiringPi 2>/dev/null 1>&2
-git clone git://git.drogon.net/wiringPi > ./install.log 2>&1
+dpkg-query -s wiringpi >> install.log
 
-echo -n "Building wiringPi... "
-cd ./wiringPi/
-./build >> ../install.log 2>&1
-cd ..
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' wiringpi|grep "install ok installed")
+echo Checking for wiringpi: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "Could not find wiringpi package - try 'sudo apt-get install wiringpi'"
+  exit 1
+  #sudo apt-get --force-yes --yes install wiringpi
+fi
 
 echo -n "Building node-wiring-pi ... "
 node-gyp rebuild 2>&1 | tee -a ./install.log

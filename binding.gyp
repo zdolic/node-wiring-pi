@@ -22,8 +22,8 @@
 	'<!(node -e \"require(\'nan\')\")'
       ],
       'libraries': [
-        '<!(pwd)/wiringPi/wiringPi/libwiringPi.so.<!(cat wiringPi/VERSION)',
-        '<!(pwd)/wiringPi/devLib/libwiringPiDev.so.<!(cat wiringPi/VERSION)'
+        '/usr/local/lib/libwiringPi.so',
+        '/usr/local/lib/libwiringPiDev.so'
       ],
       'cflags': [
         '-Wall',
