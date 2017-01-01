@@ -1,7 +1,7 @@
 {
   'targets': [
     {
-      'target_name': 'node-wiringPi',
+      'target_name': 'nodeWiringPi',
       'sources': [
         'src/addon.cc',
         
@@ -13,6 +13,8 @@
         'src/wiringPiSPI.cc',
         'src/wiringSerial.cc',
         'src/wiringShift.cc',
+
+        'src/nodeWiringPi.cc'
 
       ],
       'include_dirs': [
