@@ -68,4 +68,3 @@ namespace nodewpi {
 
 } //namespace nodewpi
 
-NODE_MODULE(softTone, nodewpi::init_softTone)

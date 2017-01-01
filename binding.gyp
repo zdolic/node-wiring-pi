@@ -1,7 +1,7 @@
 {
   'targets': [
     {
-      'target_name': 'wiringPi',
+      'target_name': 'node-wiringPi',
       'sources': [
         'src/addon.cc',
         

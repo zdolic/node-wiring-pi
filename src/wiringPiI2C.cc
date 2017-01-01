@@ -206,5 +206,3 @@ namespace nodewpi {
   }
 
 } //namespace nodewpi
-
-NODE_MODULE(wiringPiI2C, nodewpi::init_wiringPiI2C)

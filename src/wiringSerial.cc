@@ -154,4 +154,3 @@ NAN_MODULE_INIT(init_wiringSerial) {
 
 } //namespace nodewpi
 
-NODE_MODULE(wiringSerial, nodewpi::init_wiringSerial)

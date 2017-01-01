@@ -136,4 +136,3 @@ NAN_MODULE_INIT(init_wiringPiSPI) {
 
 } //namespace nodewpi
 
-NODE_MODULE(wiringPiSPI, nodewpi::init_wiringPiSPI)

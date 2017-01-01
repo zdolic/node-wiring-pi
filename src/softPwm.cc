@@ -80,4 +80,3 @@ NAN_MODULE_INIT(init_softPwm) {
 
 } //namespace nodewpi
 
-NODE_MODULE(softPwm, nodewpi::init_softPwm)

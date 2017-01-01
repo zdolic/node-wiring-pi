@@ -76,5 +76,3 @@ NAN_MODULE_INIT(init_wiringShift) {
 }
 
 } //namespace nodewpi
-
-NODE_MODULE(wiringShift, nodewpi::init_wiringShift)
