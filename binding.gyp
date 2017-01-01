@@ -7,7 +7,6 @@
         
         'src/wiringPi.cc',
         'src/softPwm.cc',
-        'src/softServo.cc',
         'src/softTone.cc',
         'src/wiringPiI2C.cc',
 
@@ -22,8 +21,8 @@
 	'<!(node -e \"require(\'nan\')\")'
       ],
       'libraries': [
-        '/usr/local/lib/libwiringPi.so',
-        '/usr/local/lib/libwiringPiDev.so'
+        '/usr/lib/libwiringPi.so',
+        '/usr/lib/libwiringPiDev.so'
       ],
       'cflags': [
         '-Wall',
