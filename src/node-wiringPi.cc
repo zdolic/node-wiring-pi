@@ -2,8 +2,14 @@
 // Node Module declaration and initialisation
 
 namespace nodewpi {
+    NAN_METHOD(hello) {
+        info.GetReturnValue().Set("Hello World");
+    }
+
     NAN_MODULE_INIT(node-wiringPi)
     {
+        NAN_EXPORT(target, hello);
+        
         nodewpi::init_wiringPi();
         
         nodewpi::init_softPwm();
