@@ -8,24 +8,20 @@ NAN_METHOD(setup) {
   SET_ARGUMENT_NAME(0, mode);
 
   std::string mode(*Nan::Utf8String(info[0]));
-  std::vector<std::string> validStrings = { "wpi", "gpio", "sys", "phys" };
-
-  if (!find_string(mode, validStrings)) { THROW_INVALID_ARGUMENT_EXCEPTION(0, mode.c_str()) }
 
   int res = 0;
-  if (mode.compare("wpi") != 0) {
+  if (mode.compare("wpi") == 0) {
     res = ::wiringPiSetup();
   }
-  else if (mode.compare("gpio") != 0) {
+  else if (mode.compare("gpio") == 0) {
     res = ::wiringPiSetupGpio();
   }
-  else if (mode.compare("sys") != 0) {
+  else if (mode.compare("sys") == 0) {
     res = ::wiringPiSetupSys();
   }
-  else if (mode.compare("phys") != 0) {
+  else if (mode.compare("phys") == 0) {
     res = ::wiringPiSetupPhys();
   } else {
-    Nan::ThrowError(mode.c_str());
     THROW_INVALID_ARGUMENT_EXCEPTION(0, mode.c_str())
   }
 
