@@ -247,7 +247,7 @@ NAN_METHOD(digitalWrite) {
   if(find_int(state, validStates)) {
     ::digitalWrite(pin, state);
   } else {
-    //throw error
+    THROW_INVALID_ARGUMENT_EXCEPTION(1, state)
   }
   
   

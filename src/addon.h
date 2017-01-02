@@ -150,6 +150,7 @@
     #define GET_ARGUMENT_AS_PERSISTENT_FUNCTION(id) v8::Persistent<v8::Function>::New(GET_ARGUMENT_AS_LOCAL_FUNCTION(id))
   #endif
 
-  #define SUB_INIT(name) void init_##name(v8::Local<v8::Object> target)
+  #define THROW_INVALID_ARGUMENT_EXCEPTION(id, value) \
+    throw_error("%s: arguments['%s'].value['%s'] is not a valid input.", __func__, GET_ARGUMENT_NAME(id), value); \
 
 #endif
