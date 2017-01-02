@@ -22,6 +22,7 @@ NAN_METHOD(setup) {
   else if (mode.compare("phys") != 0) {
     res = ::wiringPiSetupPhys();
   } else {
+    Nan::ThrowError(mode.c_str());
     THROW_INVALID_ARGUMENT_EXCEPTION(0, mode.c_str())
   }
 
