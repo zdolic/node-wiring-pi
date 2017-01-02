@@ -5,8 +5,7 @@ namespace nodewpi {
 
 NAN_METHOD(setup) {
 
-
-  std::string mode = *Nan::Utf8String(info[0]);
+  std::string mode(*Nan::Utf8String(info[0]));
 
   int res = 0;
   if (mode.compare("wpi") != 0) {
