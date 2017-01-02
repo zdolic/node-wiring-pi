@@ -5,6 +5,8 @@ namespace nodewpi {
 
 NAN_METHOD(setup) {
 
+  SET_ARGUMENT_NAME(0, mode);
+
   std::string mode(*Nan::Utf8String(info[0]));
 
   int res = 0;
@@ -20,7 +22,7 @@ NAN_METHOD(setup) {
   else if (mode.compare("phys") != 0) {
     res = ::wiringPiSetupPhys();
   } else {
-    //throw invalid parameter error
+    THROW_INVALID_ARGUMENT_EXCEPTION(0, mode.c_str())
   }
 
   // libWiringPi v2 setup functions always returns 0, so this check is kind of useless, unless v1 behaviour is restored
