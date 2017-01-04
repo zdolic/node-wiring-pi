@@ -132,7 +132,7 @@ NAN_METHOD(pinModeAlt) {
     ::pinModeAlt(pin, mode);
   }
   else {
-    //throw error
+    THROW_INVALID_ARGUMENT_EXCEPTION(1, mode)
   }
 }
 
@@ -164,7 +164,7 @@ NAN_METHOD(pinMode) {
     ::pinMode(pin, mode);
   }
   else {
-    //throw error
+    THROW_INVALID_ARGUMENT_EXCEPTION(1, mode)
   }
 
 }
@@ -195,7 +195,7 @@ NAN_METHOD(pullUpDnControl) {
   {
     ::pullUpDnControl(pin, pud);
   } else {
-    //throw error
+    THROW_INVALID_ARGUMENT_EXCEPTION(1, pud)
   }
 
 }
@@ -545,7 +545,7 @@ NAN_METHOD(pwmSetMode) {
   if(find_int(mode, validInts)) {
     ::pwmSetMode(mode);
   } else {
-    //throw error
+    THROW_INVALID_ARGUMENT_EXCEPTION(0, mode)
   }
 
 }
