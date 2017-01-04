@@ -1,3 +1,16 @@
+## TODO
+
+Rewrite readme
+Review export constants
+Add NAN_MODULE_INIT signatures to .h files
+Update build script - rebuild or configure build?
+Add devlib / extensions
+Add wiringPiISR
+Add util to replace gpio (read config and set pins as root)
+
+
+
+
 Node.js bindings to [wiringPi](http://www.wiringpi.com)
 
 Based on the awesome work of [Soarez](https://github.com/Soarez/node-wiring-pi)
