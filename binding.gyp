@@ -23,8 +23,8 @@
 	'<!(node -e \"require(\'nan\')\")'
       ],
       'libraries': [
-        '/usr/lib/libwiringPi.so',
-        '/usr/lib/libwiringPiDev.so'
+        '-lwiringPi',
+        '-lwiringPiDev'
       ],
       'cflags': [
         '-Wall',
