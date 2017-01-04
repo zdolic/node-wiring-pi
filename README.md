@@ -31,7 +31,7 @@ npm install node-wiring-pi
 ## Usage
 
 ```javascript
-var wpi = require('note-wiring-pi');
+var wpi = require('node-wiring-pi');
 ```
 ## Documentation
 
