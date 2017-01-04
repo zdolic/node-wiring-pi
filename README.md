@@ -1,6 +1,44 @@
+Node.js bindings to [wiringPi](http://www.wiringpi.com)
+
+node-wiring-pi is based on https://github.com/WiringPi/WiringPi-Node
+
+It differs from the original project by:
+
+* Using a vanilla WiringPi.com install, rather than a customised build.  
+This version of the node bindings will be missing features that have been added to https://github.com/WiringPi/WiringPi-Node.
+
+* Using [NAN](https://github.com/nodejs/nan) to provide Node version abstraction
+Hopefully this makes it more resilient against Node API changes
+
+This should mean that installation is simpler, and supports npm install -g (global mode).
+
+## Install
+
+Make sure you have [WiringPi](http://wiringpi.com/download-and-install/) installed.  On Raspbian Jessie, this should be as easy as:
+
+```
+sudo apt-get install wiringpi
+```
+
+See the [WiringPi](http://wiringpi.com/download-and-install/) link for more options and details.
+
+To install this node module:
+
+```
+npm install node-wiring-pi
+```
+
+## Usage
+
+```javascript
+var wpi = require('note-wiring-pi');
+```
+## Documentation
+
+TODO
+
 ## TODO
 
-Rewrite readme
 Review export constants
 Add NAN_MODULE_INIT signatures to .h files
 Update build script - rebuild or configure build?
@@ -9,41 +47,3 @@ Add wiringPiISR
 Add util to replace gpio (read config and set pins as root)
 
 
-
-
-Node.js bindings to [wiringPi](http://www.wiringpi.com)
-
-Based on the awesome work of [Soarez](https://github.com/Soarez/node-wiring-pi)
-
-## Install
-
-```
-npm install wiring-pi
-```
-
-## Usage
-
-```javascript
-var wpi = require('wiring-pi');
-```
-## Documentation
-
-See the [DOCUMENTATION.md](https://github.com/eugeneware/wiring-pi/blob/master/DOCUMENTATION.md) file for more detailed documentation.
-
-## Contributing
-
-wiring-pi is an [**OPEN Open Source Project**](http://openopensource.org/). This means that:
-
-> Individuals making significant and valuable contributions are given commit-access to the project to contribute as they see fit. This project is more like an open wiki than a standard guarded open source project.
-
-See the [CONTRIBUTING.md](https://github.com/eugeneware/wiring-pi/blob/master/CONTRIBUTING.md) file for more details.
-
-### Contributors
-
-wiring-pi is only possible due to the excellent work of the following contributors:
-
-Contributor | GitHub profile | Twitter profile |
---- | --- | ---
-Igor Soarez (Creator) | [Soarez](https://github.com/Soarez) | [@igorsoarez](https://twitter.com/igorsoarez)
-Leandre Gohy | [nekuz0r](https://github.com/nekuz0r) | [@LeandreGohy](http://twitter.com/LeandreGohy)
-Eugene Ware | [eugeneware](https://github.com/eugeneware) | [@eugeneware](http://twitter.com/eugeneware)
