@@ -1,0 +1,10 @@
+node_modules
+build
+test
+*.tgz
+npm-debug.log
+.vscode
+wiring-pi-xcode.xcworkspace
+.npmignore
+.gitignore
+install.log
