@@ -13,4 +13,5 @@ if [ "" == "$PKG_OK" ]; then
 fi
 
 echo "Building node-wiring-pi ... "
-node-gyp rebuild 2>&1 | tee -a ./install.log
+node-gyp clean 2>&1 | tee -a ./install.log
+node-gyp configure build 2>&1 | tee -a ./install.log

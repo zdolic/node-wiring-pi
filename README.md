@@ -1,4 +1,4 @@
-Node.js bindings to [wiringPi](http://www.wiringpi.com)
+##Node.js bindings to [wiringPi](http://www.wiringpi.com)
 
 node-wiring-pi is based on https://github.com/WiringPi/WiringPi-Node
 
@@ -33,17 +33,15 @@ npm install node-wiring-pi
 ```javascript
 var wpi = require('node-wiring-pi');
 ```
-## Documentation
-
-TODO
 
 ## TODO
 
-Review export constants
-Add NAN_MODULE_INIT signatures to .h files
-Update build script - rebuild or configure build?
-Add devlib / extensions
-Add wiringPiISR
-Add util to replace gpio (read config and set pins as root)
+* Documentation!
+* Review export constants
+* Add NAN_MODULE_INIT signatures to .h files
+* Update build script - rebuild or configure build?
+* Add devlib / extensions
+* Add wiringPiISR
+* Add util to replace gpio (read config and set pins as root)
 
 
