@@ -5,9 +5,9 @@
 #include "softTone.h"
 #include "wiringPiI2C.h"
 #include "wiringPiSPI.h"
+#include "wiringPiISR.h"
 #include "wiringSerial.h"
 #include "wiringShift.h"
-#include "wiringPiISR.h"
   
 //#include "extensions/extensions.h"
 //#include "devlib/devlib.h"

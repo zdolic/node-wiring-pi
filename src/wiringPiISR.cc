@@ -277,7 +277,7 @@ namespace nodewpi {
   }
   */
 
-  NAN_MODULE_INIT(wiringPiISR) {
+  NAN_MODULE_INIT(init_wiringPiISR) {
       NAN_EXPORT(target, wiringPiISR);
 //      NAN_EXPORT(target, wiringPiISRCancel);
 
