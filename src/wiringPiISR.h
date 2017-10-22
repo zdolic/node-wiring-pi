@@ -4,7 +4,8 @@
 #include "addon.h"
 
 namespace nodewpi {  
-
+  NAN_METHOD(wiringPiISR);
+// see comments in .cc   NAN_METHOD(wiringPiISRCancel);
 
   NAN_MODULE_INIT(init_wiringPiISR);
 }

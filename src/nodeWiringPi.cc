@@ -12,6 +12,7 @@ namespace nodewpi {
 
         nodewpi::init_wiringPiI2C(target);
         nodewpi::init_wiringPiSPI(target);
+        nodewpi::init_wiringPiISR(target);
         nodewpi::init_wiringSerial(target);
         nodewpi::init_wiringShift(target);
     }
