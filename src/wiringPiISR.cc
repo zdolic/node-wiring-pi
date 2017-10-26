@@ -250,10 +250,13 @@ namespace nodewpi {
     interrupt_callbacks[pin] = callback;
     interrupt_data[pin].previous_timestamp = ::micros();
 
-    ::wiringPiISR(pin, edgeType, interrupt_handlers[pin]);
 
     uv_async_init(uv_default_loop(), &async_handlers[pin], &dispatchInterrupt);
     uv_ref((uv_handle_t*)&async_handlers[pin]);
+
+    // everything must be initialised when the isr is installed otherwise if 
+    // a pulse arrives before structures are setup there will be a segv.
+    ::wiringPiISR(pin, edgeType, interrupt_handlers[pin]);
 
   }
 
