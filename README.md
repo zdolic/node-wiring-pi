@@ -41,7 +41,7 @@ var wpi = require('node-wiring-pi');
 * Add NAN_MODULE_INIT signatures to .h files
 * Update build script - rebuild or configure build?
 * Add devlib / extensions
-* Add wiringPiISR
+* wiringPiISR vs epoll documentation (#3)
 * Add util to replace gpio (read config and set pins as root)
 
 
