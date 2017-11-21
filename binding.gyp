@@ -9,7 +9,7 @@
         'src/softPwm.cc',
         'src/softTone.cc',
         'src/wiringPiI2C.cc',
-
+        'src/wiringPiISR.cc',
         'src/wiringPiSPI.cc',
         'src/wiringSerial.cc',
         'src/wiringShift.cc',
