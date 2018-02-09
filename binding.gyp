@@ -1,3 +1,4 @@
+
 {
   'targets': [
     {
@@ -18,8 +19,8 @@
 
       ],
       'include_dirs': [
-        '../../../wiringPi/wiringPi',
-        '../../../wiringPi/devLib',
+        'wiringPi/wiringPi',
+        'wiringPi/devLib',
 	'<!(node -e \"require(\'nan\')\")'
       ],
       'libraries': [
